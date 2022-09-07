@@ -17,31 +17,44 @@ Desired outputs:
 
 */
 
-function clipper(url) {
+// clipper(url, 1)
+// clipper(url, start, end) // start = h, w, 0; end = c, /, 0
+
+function clipper(url, start, end) {
   let slicedURL = url;
 
+  const indices = {
+    h: slicedURL.indexOf("://"),
+    w: slicedURL.indexOf("www"),
+    slash: slicedURL.indexOf("/", slicedURL.indexOf("://") + 3),
+    c: slicedURL.indexOf(".")
+  }
+
+  console.log(indices);
+
+  const indexH = slicedURL.indexOf("://");
+  const indexW = slicedURL.indexOf("www");
+  const indexSlash = slicedURL.indexOf("/");
+  const indexC = slicedURL.lastIndexOf(".");
+  
   // Look for :// and get rid of it if it's there
-  const index = slicedURL.indexOf("://");
-  if (index >= 0) {
-    slicedURL = slicedURL.slice(index + 3);
+  if (indexH >= 0) {
+    slicedURL = slicedURL.slice(indexH + 3);
   }
 
   // console.log(slicedURL);
 
   // Then look for www and get rid of it if it's there
-  const index2 = slicedURL.indexOf("www");
-  if (index2 >= 0) {
-    slicedURL = slicedURL.slice(index2 + 4);
+  if (indexW >= 0) {
+    slicedURL = slicedURL.slice(indexW + 4);
   }
 
-  const index3 = slicedURL.indexOf("/");
-  if (index3 >= 0) {
-    slicedURL = slicedURL.slice(0, index3);
+  if (indexSlash >= 0) {
+    slicedURL = slicedURL.slice(0, indexSlash);
   }
 
-  const index4 = slicedURL.lastIndexOf(".");
-  if (index4 >= 0) {
-    slicedURL = slicedURL.slice(0, index4);
+  if (indexC >= 0) {
+    slicedURL = slicedURL.slice(0, indexC);
   }
 
   console.log(slicedURL);
