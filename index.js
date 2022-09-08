@@ -30,36 +30,66 @@ Desired outputs:
 function clipper(url, start, end) {
   let slicedURL = url;
 
-  const indices = {
+  const indicesStart = {
     h: slicedURL.indexOf("://"),
     w: slicedURL.indexOf("www"),
     slash: slicedURL.indexOf("/", slicedURL.indexOf("://") + 3),
     c: slicedURL.indexOf("."),
   };
 
-  if (start === "shorten" && indices.h >= 0) {
-    slicedURL = slicedURL.slice(indices.h + 3);
+  if (start === "shorten" && indicesStart.h >= 0) {
+    slicedURL = slicedURL.slice(indicesStart.h + 3);
     console.log(slicedURL);
-  } else if (start === "remove" && indices.w >= 0) {
-    slicedURL = slicedURL.slice(indices.w + 4);
+  } else if (start === "remove" && indicesStart.w >= 0) {
+    slicedURL = slicedURL.slice(indicesStart.w + 4);
     console.log(slicedURL);
-  } else if (start === "shorten" && indices.h < 0) {
+  } else if (start === "shorten" && indicesStart.h < 0) {
     console.log(
       `ERROR: It looks like your link does not include "https://" nor "http://" `
     );
-  } else if (start === "remove" && indices.w < 0) {
+  } else if (start === "remove" && indicesStart.w < 0) {
     console.log(`ERROR: It looks like your link does not include "www" `);
+  }
+
+  let indexSlash = slicedURL.indexOf("/", slicedURL.indexOf("://") + 3);
+
+  if (slicedURL.indexOf("://") < 0) {
+    indexSlash = slicedURL.indexOf("/");
+  }
+
+  if (end === "shorten" && indexSlash >= 0) {
+    slicedURL = slicedURL.slice(0, indexSlash);
+    console.log(slicedURL);
+  } else if (end === "shorten" && indexSlash < 0) {
+    console.log(
+      `ERROR: It looks like your link does not include any sub-directory(s).`
+      );
   }
 
   return slicedURL;
 }
 
-// clipper("http://www.google.com/whatever");
-clipper("http://google.com", "remove");
-clipper("https://www.google.com", "remove");
+// Clip the start: the protocol, and 'www' if it exists
+// clipper("maps.google.co.uk/whatever");
+// clipper("maps.google.com/whatever");
+// clipper("google.com/whatever");
+// clipper("google.co.uk/whatever");
+// clipper("maps.google.co.uk");
+// clipper("maps.google.com");
+// clipper("google.com");
+// clipper("google.co.uk");
+
+// At this point, the user may want either:
+// 1. the string as it currently is at this point
+// 2. remove the directory (/ and everything after it)
+// 3. just get the site name ('google')
+// How do we differentiate between maps.google.com and google.co.uk?
+
+// clipper("http://google.com", "remove");
+// clipper("https://www.google.com", "remove");
 // clipper("https://google.com");
-clipper("https://maps.google.com", "shorten");
-clipper("www.google.com", "shorten");
+// clipper("https://maps.google.com", "shorten");
+// clipper("www.google.com", "shorten");
 // clipper("maps.google.com");
 // clipper("google.com");
 // clipper("https://meet.google.com/bnd-azkm-tmy");

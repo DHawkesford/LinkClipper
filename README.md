@@ -76,7 +76,7 @@ A new string containing the clipped URL. The original string is not modified.
 
 ## Future plans
 
-- 
+- Include an option for just obtaining the site name (e.g. 'github')
 
 ## Acknowledgements
 
