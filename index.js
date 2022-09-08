@@ -45,10 +45,10 @@ function clipper(url, start, end) {
     console.log(slicedURL);
   } else if (start === "shorten" && indicesStart.h < 0) {
     console.log(
-      `ERROR: It looks like your link does not include "https://" nor "http://" `
+      `ERROR: It looks like your link does not include "https://" nor "http://"`
     );
   } else if (start === "remove" && indicesStart.w < 0) {
-    console.log(`ERROR: It looks like your link does not include "www" `);
+    console.log(`ERROR: It looks like your link does not include "www"`);
   }
 
   let indexSlash = slicedURL.indexOf("/", slicedURL.indexOf("://") + 3);
@@ -63,7 +63,7 @@ function clipper(url, start, end) {
   } else if (end === "shorten" && indexSlash < 0) {
     console.log(
       `ERROR: It looks like your link does not include any sub-directory(s).`
-      );
+    );
   }
 
   return slicedURL;
