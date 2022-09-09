@@ -7,7 +7,7 @@ https://www.google.com/maps/place/Big+Ben/
 
 - ✅ http://www.google.com/maps/place/Big+Ben/
 - ✅ http://www.google.com
-- http://www.google.co.uk/maps/place/Big+Ben/
+- ✅ http://www.google.co.uk/maps/place/Big+Ben/
 - http://www.google.co.uk
 - http://maps.google.com/maps/place/Big+Ben/
 - http://maps.google.com
@@ -103,6 +103,67 @@ describe("http://www.google.com", () => {
   
   test(`clipper(url, "remove", "shorten") should return "google.com" and log the "directories" error message`, () => {
     expect(clipper(url, "remove", "shorten")).toBe("google.com");
+    expect(console.log).toHaveBeenCalledWith(errors.directories);
+  });
+});
+
+describe("http://www.google.co.uk/maps/place/Big+Ben/", () => {
+  const url = "http://www.google.co.uk/maps/place/Big+Ben/";
+  console.log = jest.fn();
+
+  test(`clipper(url, "none") should return "http://www.google.co.uk/maps/place/Big+Ben/"`, () => {
+    expect(clipper(url, "none")).toBe(url);
+  });
+
+  test(`clipper(url, "shorten") should return "www.google.co.uk/maps/place/Big+Ben/"`, () => {
+    expect(clipper(url, "shorten")).toBe("www.google.co.uk/maps/place/Big+Ben/");
+  });
+  
+  test(`clipper(url, "remove") should return "google.co.uk/maps/place/Big+Ben/"`, () => {
+    expect(clipper(url, "remove")).toBe("google.co.uk/maps/place/Big+Ben/");
+  });
+  
+  test(`clipper(url, "none", "shorten") should return "http://www.google.co.uk"`, () => {
+    expect(clipper(url, "none", "shorten")).toBe("http://www.google.co.uk");
+  });
+  
+  test(`clipper(url, "shorten", "shorten") should return "www.google.co.uk"`, () => {
+    expect(clipper(url, "shorten", "shorten")).toBe("www.google.co.uk");
+  });
+  
+  test(`clipper(url, "remove", "shorten") should return "google.co.uk"`, () => {
+    expect(clipper(url, "remove", "shorten")).toBe("google.co.uk");
+  });
+});
+
+describe("http://www.google.co.uk", () => {
+  const url = "http://www.google.co.uk";
+  console.log = jest.fn();
+
+  test(`clipper(url, "none") should return "http://www.google.co.uk"`, () => {
+    expect(clipper(url, "none")).toBe(url);
+  });
+
+  test(`clipper(url, "shorten") should return "www.google.co.uk"`, () => {
+    expect(clipper(url, "shorten")).toBe("www.google.co.uk");
+  });
+  
+  test(`clipper(url, "remove") should return "google.co.uk"`, () => {
+    expect(clipper(url, "remove")).toBe("google.co.uk");
+  });
+  
+  test(`clipper(url, "none", "shorten") should return "http://www.google.co.uk" and log the "directories" error message`, () => {
+    expect(clipper(url, "none", "shorten")).toBe("http://www.google.co.uk");
+    expect(console.log).toHaveBeenCalledWith(errors.directories);
+  });
+  
+  test(`clipper(url, "shorten", "shorten") should return "www.google.co.uk" and log the "directories" error message`, () => {
+    expect(clipper(url, "shorten", "shorten")).toBe("www.google.co.uk");
+    expect(console.log).toHaveBeenCalledWith(errors.directories);
+  });
+  
+  test(`clipper(url, "remove", "shorten") should return "google.co.uk" and log the "directories" error message`, () => {
+    expect(clipper(url, "remove", "shorten")).toBe("google.co.uk");
     expect(console.log).toHaveBeenCalledWith(errors.directories);
   });
 });
