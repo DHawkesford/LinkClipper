@@ -27,6 +27,12 @@ Desired outputs:
 4. else if end= remove, slice based on indices.c 
 */
 
+export const errors = {
+  protocol: `ERROR: It looks like your link does not include "https://" nor "http://"`,
+  www: `ERROR: It looks like your link does not include "www"`,
+  directories: `ERROR: It looks like your link does not include any sub-directory(s)`
+}
+
 function clipper(url, start, end) {
   let slicedURL = url;
 
@@ -44,11 +50,9 @@ function clipper(url, start, end) {
     slicedURL = slicedURL.slice(indicesStart.w + 4);
     console.log(slicedURL);
   } else if (start === "shorten" && indicesStart.h < 0) {
-    console.log(
-      `ERROR: It looks like your link does not include "https://" nor "http://"`
-    );
+    console.log(errors.protocol);
   } else if (start === "remove" && indicesStart.w < 0) {
-    console.log(`ERROR: It looks like your link does not include "www"`);
+    console.log(errors.www);
   }
 
   let indexSlash = slicedURL.indexOf("/", slicedURL.indexOf("://") + 3);
@@ -61,9 +65,7 @@ function clipper(url, start, end) {
     slicedURL = slicedURL.slice(0, indexSlash);
     console.log(slicedURL);
   } else if (end === "shorten" && indexSlash < 0) {
-    console.log(
-      `ERROR: It looks like your link does not include any sub-directory(s).`
-    );
+    console.log(errors.directories);
   }
 
   return slicedURL;
