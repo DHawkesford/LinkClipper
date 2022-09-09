@@ -8,8 +8,8 @@ https://www.google.com/maps/place/Big+Ben/
 - ✅ http://www.google.com/maps/place/Big+Ben/
 - ✅ http://www.google.com
 - ✅ http://www.google.co.uk/maps/place/Big+Ben/
-- http://www.google.co.uk
-- http://maps.google.com/maps/place/Big+Ben/
+- ✅ http://www.google.co.uk
+- ❓ http://maps.google.com/maps/place/Big+Ben/
 - http://maps.google.com
 - http://maps.google.co.uk/maps/place/Big+Ben/
 - http://maps.google.co.uk
@@ -165,6 +165,37 @@ describe("http://www.google.co.uk", () => {
   test(`clipper(url, "remove", "shorten") should return "google.co.uk" and log the "directories" error message`, () => {
     expect(clipper(url, "remove", "shorten")).toBe("google.co.uk");
     expect(console.log).toHaveBeenCalledWith(errors.directories);
+  });
+});
+
+describe("http://maps.google.com/maps/place/Big+Ben/", () => {
+  const url = "http://maps.google.com/maps/place/Big+Ben/";
+  console.log = jest.fn();
+
+  test(`clipper(url, "none") should return "http://maps.google.com/maps/place/Big+Ben/"`, () => {
+    expect(clipper(url, "none")).toBe(url);
+  });
+
+  test(`clipper(url, "shorten") should return "maps.google.com/maps/place/Big+Ben/"`, () => {
+    expect(clipper(url, "shorten")).toBe("maps.google.com/maps/place/Big+Ben/");
+  });
+  
+  test(`clipper(url, "remove") should return "maps.google.com/maps/place/Big+Ben/" and log the "www" error message`, () => {
+    expect(clipper(url, "remove")).toBe("maps.google.com/maps/place/Big+Ben/");
+    expect(console.log).toHaveBeenCalledWith(errors.www);
+  });
+  
+  test(`clipper(url, "none", "shorten") should return "http://maps.google.com"`, () => {
+    expect(clipper(url, "none", "shorten")).toBe("http://maps.google.com");
+  });
+  
+  test(`clipper(url, "shorten", "shorten") should return "maps.google.com"`, () => {
+    expect(clipper(url, "shorten", "shorten")).toBe("http://maps.google.com/maps/place/Big+Ben/");
+  });
+  
+  test(`clipper(url, "remove", "shorten") should return "maps.google.com" and log the "www" error message`, () => {
+    expect(clipper(url, "remove", "shorten")).toBe("maps.google.com");
+    expect(console.log).toHaveBeenCalledWith(errors.www);
   });
 });
 
