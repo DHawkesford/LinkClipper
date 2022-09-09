@@ -91,19 +91,19 @@ describe("http://www.google.com", () => {
     expect(clipper(url, "remove")).toBe("google.com");
   });
   
-  test(`clipper(url, "none", "shorten") should return "http://www.google.com" and log the "directories" error message`, () => {
+  test(`clipper(url, "none", "shorten") should return "http://www.google.com" and log the "path" error message`, () => {
     expect(clipper(url, "none", "shorten")).toBe("http://www.google.com");
-    expect(console.log).toHaveBeenCalledWith(errors.directories);
+    expect(console.log).toHaveBeenCalledWith(errors.path);
   });
   
-  test(`clipper(url, "shorten", "shorten") should return "www.google.com" and log the "directories" error message`, () => {
+  test(`clipper(url, "shorten", "shorten") should return "www.google.com" and log the "path" error message`, () => {
     expect(clipper(url, "shorten", "shorten")).toBe("www.google.com");
-    expect(console.log).toHaveBeenCalledWith(errors.directories);
+    expect(console.log).toHaveBeenCalledWith(errors.path);
   });
   
-  test(`clipper(url, "remove", "shorten") should return "google.com" and log the "directories" error message`, () => {
+  test(`clipper(url, "remove", "shorten") should return "google.com" and log the "path" error message`, () => {
     expect(clipper(url, "remove", "shorten")).toBe("google.com");
-    expect(console.log).toHaveBeenCalledWith(errors.directories);
+    expect(console.log).toHaveBeenCalledWith(errors.path);
   });
 });
 
@@ -152,19 +152,19 @@ describe("http://www.google.co.uk", () => {
     expect(clipper(url, "remove")).toBe("google.co.uk");
   });
   
-  test(`clipper(url, "none", "shorten") should return "http://www.google.co.uk" and log the "directories" error message`, () => {
+  test(`clipper(url, "none", "shorten") should return "http://www.google.co.uk" and log the "path" error message`, () => {
     expect(clipper(url, "none", "shorten")).toBe("http://www.google.co.uk");
-    expect(console.log).toHaveBeenCalledWith(errors.directories);
+    expect(console.log).toHaveBeenCalledWith(errors.path);
   });
   
-  test(`clipper(url, "shorten", "shorten") should return "www.google.co.uk" and log the "directories" error message`, () => {
+  test(`clipper(url, "shorten", "shorten") should return "www.google.co.uk" and log the "path" error message`, () => {
     expect(clipper(url, "shorten", "shorten")).toBe("www.google.co.uk");
-    expect(console.log).toHaveBeenCalledWith(errors.directories);
+    expect(console.log).toHaveBeenCalledWith(errors.path);
   });
   
-  test(`clipper(url, "remove", "shorten") should return "google.co.uk" and log the "directories" error message`, () => {
+  test(`clipper(url, "remove", "shorten") should return "google.co.uk" and log the "path" error message`, () => {
     expect(clipper(url, "remove", "shorten")).toBe("google.co.uk");
-    expect(console.log).toHaveBeenCalledWith(errors.directories);
+    expect(console.log).toHaveBeenCalledWith(errors.path);
   });
 });
 

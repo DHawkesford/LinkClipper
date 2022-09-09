@@ -30,7 +30,7 @@ Desired outputs:
 export const errors = {
   protocol: `ERROR: It looks like your link does not include "https://" nor "http://"`,
   www: `ERROR: It looks like your link does not include "www"`,
-  directories: `ERROR: It looks like your link does not include any sub-directory(s)`
+  path: `ERROR: It looks like your link does not include a path`
 }
 
 function clipper(url, start, end) {
@@ -65,7 +65,7 @@ function clipper(url, start, end) {
     slicedURL = slicedURL.slice(0, indexSlash);
     console.log(slicedURL);
   } else if (end === "shorten" && indexSlash < 0) {
-    console.log(errors.directories);
+    console.log(errors.path);
   }
 
   return slicedURL;
@@ -83,7 +83,7 @@ function clipper(url, start, end) {
 
 // At this point, the user may want either:
 // 1. the string as it currently is at this point
-// 2. remove the directory (/ and everything after it)
+// 2. remove the path (/ and everything after it)
 // 3. just get the site name ('google')
 // How do we differentiate between maps.google.com and google.co.uk?
 
