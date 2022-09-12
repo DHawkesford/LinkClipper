@@ -32,7 +32,7 @@ https://www.google.com/maps/place/Big+Ben/
 - https://google.co.uk/maps/place/Big+Ben/ ✅
 - https://google.co.uk ✅
 - www.google.com/maps/place/Big+Ben/ ✅
-- www.google.com
+- www.google.com ✅
 - www.google.co.uk/maps/place/Big+Ben/
 - www.google.co.uk
 - maps.google.com/maps/place/Big+Ben/
@@ -412,5 +412,38 @@ describe("www.google.com", () => {
   test(`clipper(url, "remove", "shorten") should return "google.com" and log the path error message `, () => {
     expect(clipper(url, "remove", "shorten")).toBe("google.com");
     expect(console.log).toHaveBeenCalledWith(errors.path);
+  });
+});
+
+describe("www.google.co.uk/maps/place/Big+Ben/", () => {
+  const url = "www.google.co.uk/maps/place/Big+Ben/";
+  console.log = jest.fn();
+
+  test(`clipper(url, "none") should return "www.google.co.uk/maps/place/Big+Ben/"`, () => {
+    expect(clipper(url, "none")).toBe(url);
+  });
+
+  test(`clipper(url, "shorten") should return "www.google.co.uk/maps/place/Big+Ben/" and log the protocol erros`, () => {
+    expect(clipper(url, "shorten")).toBe(
+      "www.google.co.uk/maps/place/Big+Ben/"
+    );
+    expect(console.log).toHaveBeenCalledWith(errors.protocol);
+  });
+
+  test(`clipper(url, "remove") should return "google.co.uk/maps/place/Big+Ben/"`, () => {
+    expect(clipper(url, "remove")).toBe("google.co.uk/maps/place/Big+Ben/");
+  });
+
+  test(`clipper(url, "none", "shorten") should return "www.google.co.uk" `, () => {
+    expect(clipper(url, "none", "shorten")).toBe("www.google.co.uk");
+  });
+
+  test(`clipper(url, "shorten", "shorten") should return "www.google.co.uk" and log the protocol error message`, () => {
+    expect(clipper(url, "shorten", "shorten")).toBe("www.google.com");
+    expect(console.log).toHaveBeenCalledWith(errors.protocol);
+  });
+
+  test(`clipper(url, "remove", "shorten") should return "google.co.uk" `, () => {
+    expect(clipper(url, "remove", "shorten")).toBe("google.com");
   });
 });
