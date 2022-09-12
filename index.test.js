@@ -550,3 +550,39 @@ describe("maps.google.com", () => {
     expect(console.log).toHaveBeenCalledWith(errors.path);
   });
 });
+
+describe("maps.google.co.uk/maps/place/Big+Ben/", () => {
+  const url = "maps.google.co.uk/maps/place/Big+Ben/";
+  console.log = jest.fn();
+
+  test(`clipper(url, "none") should return "maps.google.co.uk/maps/place/Big+Ben/"`, () => {
+    expect(clipper(url, "none")).toBe(url);
+  });
+
+  test(`clipper(url, "shorten") should return "maps.google.co.uk/maps/place/Big+Ben/"`, () => {
+    expect(clipper(url, "shorten")).toBe(
+      "maps.google.co.uk/maps/place/Big+Ben/"
+    );
+  });
+
+  //What error message here?
+  test(`clipper(url, "remove") should return "maps.google.co.uk/maps/place/Big+Ben/"`, () => {
+    expect(clipper(url, "remove")).toBe(
+      "maps.google.co.uk/maps/place/Big+Ben/"
+    );
+  });
+
+  test(`clipper(url, "none", "shorten") should return "maps.google.co.uk" `, () => {
+    expect(clipper(url, "none", "shorten")).toBe("maps.google.co.uk");
+  });
+
+  test(`clipper(url, "shorten", "shorten") should return "maps.google.co.uk" and log the protocol error message`, () => {
+    expect(clipper(url, "shorten", "shorten")).toBe("maps.google.co.uk");
+    expect(console.log).toHaveBeenCalledWith(errors.protocol);
+  });
+
+  // what error message?
+  test(`clipper(url, "remove", "shorten") should return "maps.google.co.uk" `, () => {
+    expect(clipper(url, "remove", "shorten")).toBe("maps.google.co.uk");
+  });
+});
