@@ -190,7 +190,7 @@ describe("http://maps.google.com/maps/place/Big+Ben/", () => {
   });
   
   test(`clipper(url, "shorten", "shorten") should return "maps.google.com"`, () => {
-    expect(clipper(url, "shorten", "shorten")).toBe("http://maps.google.com/maps/place/Big+Ben/");
+    expect(clipper(url, "shorten", "shorten")).toBe("maps.google.com");
   });
   
   test(`clipper(url, "remove", "shorten") should return "maps.google.com" and log the "www" error message`, () => {

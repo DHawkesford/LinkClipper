@@ -51,7 +51,7 @@ function clipper(url, start, end) {
     console.log(slicedURL);
   } else if (start === "shorten" && indicesStart.h < 0) {
     console.log(errors.protocol);
-  } else if (start === "remove" && indicesStart.w < 0) {
+  } else if (start === "remove" && indicesStart.w < 0 && indicesStart.h >= 0) {
     slicedURL = slicedURL.slice(indicesStart.h + 3);
     console.log(errors.www);
   }
