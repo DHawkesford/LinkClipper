@@ -31,7 +31,7 @@ https://www.google.com/maps/place/Big+Ben/
 - https://google.com ✅
 - https://google.co.uk/maps/place/Big+Ben/ ✅
 - https://google.co.uk ✅
-- www.google.com/maps/place/Big+Ben/
+- www.google.com/maps/place/Big+Ben/ ✅
 - www.google.com
 - www.google.co.uk/maps/place/Big+Ben/
 - www.google.co.uk
@@ -369,7 +369,6 @@ describe("www.google.com/maps/place/Big+Ben/", () => {
 
   test(`clipper(url, "none", "shorten") should return "www.google.com" `, () => {
     expect(clipper(url, "none", "shorten")).toBe("www.google.com");
-    expect(console.log).toHaveBeenCalledWith(errors.path);
   });
 
   test(`clipper(url, "shorten", "shorten") should return "www.google.com" and log the protocol error message`, () => {
@@ -379,5 +378,39 @@ describe("www.google.com/maps/place/Big+Ben/", () => {
 
   test(`clipper(url, "remove", "shorten") should return "google.com" `, () => {
     expect(clipper(url, "remove", "shorten")).toBe("google.com");
+  });
+});
+
+describe("www.google.com", () => {
+  const url = "www.google.com";
+  console.log = jest.fn();
+
+  test(`clipper(url, "none") should return "www.google.com"`, () => {
+    expect(clipper(url, "none")).toBe(url);
+  });
+
+  test(`clipper(url, "shorten") should return "www.google.com" and log the protocol erros`, () => {
+    expect(clipper(url, "shorten")).toBe("www.google.com");
+    expect(console.log).toHaveBeenCalledWith(errors.protocol);
+  });
+
+  test(`clipper(url, "remove") should return "google.com"`, () => {
+    expect(clipper(url, "remove")).toBe("google.com");
+  });
+
+  test(`clipper(url, "none", "shorten") should return "www.google.com" and log the path error`, () => {
+    expect(clipper(url, "none", "shorten")).toBe("www.google.com");
+    expect(console.log).toHaveBeenCalledWith(errors.path);
+  });
+
+  test(`clipper(url, "shorten", "shorten") should return "www.google.com" and log both the protocol and the path error messages`, () => {
+    expect(clipper(url, "shorten", "shorten")).toBe("www.google.com");
+    expect(console.log).toHaveBeenCalledWith(errors.protocol);
+    expect(console.log).toHaveBeenCalledWith(errors.path);
+  });
+
+  test(`clipper(url, "remove", "shorten") should return "google.com" and log the path error message `, () => {
+    expect(clipper(url, "remove", "shorten")).toBe("google.com");
+    expect(console.log).toHaveBeenCalledWith(errors.path);
   });
 });
