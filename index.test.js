@@ -34,7 +34,7 @@ https://www.google.com/maps/place/Big+Ben/
 - www.google.com/maps/place/Big+Ben/ ✅
 - www.google.com ✅
 - www.google.co.uk/maps/place/Big+Ben/ ✅
-- www.google.co.uk
+- www.google.co.uk ✅
 - maps.google.com/maps/place/Big+Ben/
 - maps.google.com
 - maps.google.co.uk/maps/place/Big+Ben/
