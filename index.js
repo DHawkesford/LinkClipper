@@ -30,8 +30,8 @@ Desired outputs:
 export const errors = {
   protocol: `ERROR: It looks like your link does not include "https://" nor "http://"`,
   www: `ERROR: It looks like your link does not include "www"`,
-  path: `ERROR: It looks like your link does not include a path`
-}
+  path: `ERROR: It looks like your link does not include a path`,
+};
 
 function clipper(url, start, end) {
   let slicedURL = url;
@@ -52,6 +52,7 @@ function clipper(url, start, end) {
   } else if (start === "shorten" && indicesStart.h < 0) {
     console.log(errors.protocol);
   } else if (start === "remove" && indicesStart.w < 0) {
+    slicedURL = slicedURL.slice(indicesStart.h + 3);
     console.log(errors.www);
   }
 
