@@ -88,21 +88,21 @@ describe("http://www.google.com", () => {
   test(`clipper(url, "shorten") should return "www.google.com"`, () => {
     expect(clipper(url, "shorten")).toBe("www.google.com");
   });
-  
+
   test(`clipper(url, "remove") should return "google.com"`, () => {
     expect(clipper(url, "remove")).toBe("google.com");
   });
-  
+
   test(`clipper(url, "none", "shorten") should return "http://www.google.com" and log the "path" error message`, () => {
     expect(clipper(url, "none", "shorten")).toBe("http://www.google.com");
     expect(console.log).toHaveBeenCalledWith(errors.path);
   });
-  
+
   test(`clipper(url, "shorten", "shorten") should return "www.google.com" and log the "path" error message`, () => {
     expect(clipper(url, "shorten", "shorten")).toBe("www.google.com");
     expect(console.log).toHaveBeenCalledWith(errors.path);
   });
-  
+
   test(`clipper(url, "remove", "shorten") should return "google.com" and log the "path" error message`, () => {
     expect(clipper(url, "remove", "shorten")).toBe("google.com");
     expect(console.log).toHaveBeenCalledWith(errors.path);
@@ -118,21 +118,23 @@ describe("http://www.google.co.uk/maps/place/Big+Ben/", () => {
   });
 
   test(`clipper(url, "shorten") should return "www.google.co.uk/maps/place/Big+Ben/"`, () => {
-    expect(clipper(url, "shorten")).toBe("www.google.co.uk/maps/place/Big+Ben/");
+    expect(clipper(url, "shorten")).toBe(
+      "www.google.co.uk/maps/place/Big+Ben/"
+    );
   });
-  
+
   test(`clipper(url, "remove") should return "google.co.uk/maps/place/Big+Ben/"`, () => {
     expect(clipper(url, "remove")).toBe("google.co.uk/maps/place/Big+Ben/");
   });
-  
+
   test(`clipper(url, "none", "shorten") should return "http://www.google.co.uk"`, () => {
     expect(clipper(url, "none", "shorten")).toBe("http://www.google.co.uk");
   });
-  
+
   test(`clipper(url, "shorten", "shorten") should return "www.google.co.uk"`, () => {
     expect(clipper(url, "shorten", "shorten")).toBe("www.google.co.uk");
   });
-  
+
   test(`clipper(url, "remove", "shorten") should return "google.co.uk"`, () => {
     expect(clipper(url, "remove", "shorten")).toBe("google.co.uk");
   });
@@ -149,21 +151,21 @@ describe("http://www.google.co.uk", () => {
   test(`clipper(url, "shorten") should return "www.google.co.uk"`, () => {
     expect(clipper(url, "shorten")).toBe("www.google.co.uk");
   });
-  
+
   test(`clipper(url, "remove") should return "google.co.uk"`, () => {
     expect(clipper(url, "remove")).toBe("google.co.uk");
   });
-  
+
   test(`clipper(url, "none", "shorten") should return "http://www.google.co.uk" and log the "path" error message`, () => {
     expect(clipper(url, "none", "shorten")).toBe("http://www.google.co.uk");
     expect(console.log).toHaveBeenCalledWith(errors.path);
   });
-  
+
   test(`clipper(url, "shorten", "shorten") should return "www.google.co.uk" and log the "path" error message`, () => {
     expect(clipper(url, "shorten", "shorten")).toBe("www.google.co.uk");
     expect(console.log).toHaveBeenCalledWith(errors.path);
   });
-  
+
   test(`clipper(url, "remove", "shorten") should return "google.co.uk" and log the "path" error message`, () => {
     expect(clipper(url, "remove", "shorten")).toBe("google.co.uk");
     expect(console.log).toHaveBeenCalledWith(errors.path);
@@ -181,19 +183,19 @@ describe("http://maps.google.com/maps/place/Big+Ben/", () => {
   test(`clipper(url, "shorten") should return "maps.google.com/maps/place/Big+Ben/"`, () => {
     expect(clipper(url, "shorten")).toBe("maps.google.com/maps/place/Big+Ben/");
   });
-  
+
   test(`clipper(url, "remove") should return "maps.google.com/maps/place/Big+Ben/"`, () => {
     expect(clipper(url, "remove")).toBe("maps.google.com/maps/place/Big+Ben/");
   });
-  
+
   test(`clipper(url, "none", "shorten") should return "http://maps.google.com"`, () => {
     expect(clipper(url, "none", "shorten")).toBe("http://maps.google.com");
   });
-  
+
   test(`clipper(url, "shorten", "shorten") should return "maps.google.com"`, () => {
     expect(clipper(url, "shorten", "shorten")).toBe("maps.google.com");
   });
-  
+
   test(`clipper(url, "remove", "shorten") should return "maps.google.com"`, () => {
     expect(clipper(url, "remove", "shorten")).toBe("maps.google.com");
   });
@@ -208,23 +210,23 @@ describe("http://maps.google.com", () => {
   });
 
   test(`clipper(url, "shorten") should return "http://maps.google.com"`, () => {
-    expect(clipper(url, "shorten")).toBe("http://maps.google.com");
+    expect(clipper(url, "shorten")).toBe("maps.google.com");
   });
-  
+
   test(`clipper(url, "remove") should return "http://maps.google.com"`, () => {
-    expect(clipper(url, "remove")).toBe("http://maps.google.com");
+    expect(clipper(url, "remove")).toBe("maps.google.com");
   });
-  
+
   test(`clipper(url, "none", "shorten") should return "http://maps.google.com"`, () => {
     expect(clipper(url, "none", "shorten")).toBe("http://maps.google.com");
   });
-  
+
   test(`clipper(url, "shorten", "shorten") should return "http://maps.google.com"`, () => {
-    expect(clipper(url, "shorten", "shorten")).toBe("http://maps.google.com");
+    expect(clipper(url, "shorten", "shorten")).toBe("maps.google.com");
   });
-  
+
   test(`clipper(url, "remove", "shorten") should return "http://maps.google.com"`, () => {
-    expect(clipper(url, "remove", "shorten")).toBe("http://maps.google.com");
+    expect(clipper(url, "remove", "shorten")).toBe("maps.google.com");
   });
 });
 
@@ -252,5 +254,37 @@ describe("maps.google.co.uk/whatever", () => {
   });
   test(`When the settings are set to start = "remove" without the end option, it should return "maps.google.co.uk/whatever"`, () => {
     expect(clipper(url, "remove")).toBe("maps.google.co.uk/whatever");
+  });
+});
+
+describe("https://google.com", () => {
+  const url = "https://google.com";
+  console.log = jest.fn();
+
+  test(`clipper(url, "none") should return "https://google.com"`, () => {
+    expect(clipper(url, "none")).toBe(url);
+  });
+
+  test(`clipper(url, "shorten") should return "google.com"`, () => {
+    expect(clipper(url, "shorten")).toBe("google.com");
+  });
+
+  test(`clipper(url, "remove") should return "google.com"`, () => {
+    expect(clipper(url, "remove")).toBe("google.com");
+  });
+
+  test(`clipper(url, "none", "shorten") should return "https://google.com" and log the path error message`, () => {
+    expect(clipper(url, "none", "shorten")).toBe("https://google.com");
+    expect(console.log).toHaveBeenCalledWith(errors.path);
+  });
+
+  test(`clipper(url, "shorten", "shorten") should return "google.com" and log the path error message`, () => {
+    expect(clipper(url, "shorten", "shorten")).toBe("google.com");
+    expect(console.log).toHaveBeenCalledWith(errors.path);
+  });
+
+  test(`clipper(url, "remove", "shorten") should return "google.com" and log the path error message`, () => {
+    expect(clipper(url, "remove", "shorten")).toBe("google.com");
+    expect(console.log).toHaveBeenCalledWith(errors.path);
   });
 });
