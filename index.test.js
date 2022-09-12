@@ -9,7 +9,7 @@ https://www.google.com/maps/place/Big+Ben/
 - ✅ http://www.google.com
 - ✅ http://www.google.co.uk/maps/place/Big+Ben/
 - ✅ http://www.google.co.uk
-- ❓ http://maps.google.com/maps/place/Big+Ben/
+- ✅ http://maps.google.com/maps/place/Big+Ben/
 - http://maps.google.com
 - http://maps.google.co.uk/maps/place/Big+Ben/
 - http://maps.google.co.uk
@@ -180,9 +180,8 @@ describe("http://maps.google.com/maps/place/Big+Ben/", () => {
     expect(clipper(url, "shorten")).toBe("maps.google.com/maps/place/Big+Ben/");
   });
   
-  test(`clipper(url, "remove") should return "maps.google.com/maps/place/Big+Ben/" and log the "www" error message`, () => {
+  test(`clipper(url, "remove") should return "maps.google.com/maps/place/Big+Ben/"`, () => {
     expect(clipper(url, "remove")).toBe("maps.google.com/maps/place/Big+Ben/");
-    expect(console.log).toHaveBeenCalledWith(errors.www);
   });
   
   test(`clipper(url, "none", "shorten") should return "http://maps.google.com"`, () => {
@@ -193,9 +192,8 @@ describe("http://maps.google.com/maps/place/Big+Ben/", () => {
     expect(clipper(url, "shorten", "shorten")).toBe("maps.google.com");
   });
   
-  test(`clipper(url, "remove", "shorten") should return "maps.google.com" and log the "www" error message`, () => {
+  test(`clipper(url, "remove", "shorten") should return "maps.google.com"`, () => {
     expect(clipper(url, "remove", "shorten")).toBe("maps.google.com");
-    expect(console.log).toHaveBeenCalledWith(errors.www);
   });
 });
 
@@ -209,11 +207,8 @@ describe("maps.google.co.uk/whatever", () => {
       'ERROR: It looks like your link does not include "https://" nor "http://"'
     );
   });
-  test(`When the settings are set to start = "remove" and end="shorten", it should return "maps.google.co.uk" and log "ERROR: It looks like your link does not include "www"" `, () => {
+  test(`When the settings are set to start = "remove" and end="shorten", it should return "maps.google.co.uk"`, () => {
     expect(clipper(url, "remove", "shorten")).toBe("maps.google.co.uk");
-    expect(console.log).toHaveBeenCalledWith(
-      'ERROR: It looks like your link does not include "www"'
-    );
   });
   test(`When the settings are set to start = "none" and end="shorten", it should return "maps.google.co.uk" `, () => {
     expect(clipper(url, "none", "shorten")).toBe("maps.google.co.uk");
@@ -224,10 +219,7 @@ describe("maps.google.co.uk/whatever", () => {
       'ERROR: It looks like your link does not include "https://" nor "http://"'
     );
   });
-  test(`When the settings are set to start = "remove" without the end option, it should return "maps.google.co.uk/whatever" and log "ERROR: It looks like your link does not include "www"" `, () => {
+  test(`When the settings are set to start = "remove" without the end option, it should return "maps.google.co.uk/whatever"`, () => {
     expect(clipper(url, "remove")).toBe("maps.google.co.uk/whatever");
-    expect(console.log).toHaveBeenCalledWith(
-      'ERROR: It looks like your link does not include "www"'
-    );
   });
 });

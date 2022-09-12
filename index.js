@@ -39,21 +39,18 @@ function clipper(url, start, end) {
   const indicesStart = {
     h: slicedURL.indexOf("://"),
     w: slicedURL.indexOf("www"),
-    slash: slicedURL.indexOf("/", slicedURL.indexOf("://") + 3),
-    c: slicedURL.indexOf("."),
   };
 
-  if (start === "shorten" && indicesStart.h >= 0) {
+  if (start === "shorten" && indicesStart.h >= 0) { // If there's a protocol
     slicedURL = slicedURL.slice(indicesStart.h + 3);
     console.log(slicedURL);
-  } else if (start === "remove" && indicesStart.w >= 0) {
+  } else if (start === "remove" && indicesStart.w >= 0) { // If there's a 'www'
     slicedURL = slicedURL.slice(indicesStart.w + 4);
     console.log(slicedURL);
-  } else if (start === "shorten" && indicesStart.h < 0) {
+  } else if (start === "shorten" && indicesStart.h < 0) { // If there's no protocol
     console.log(errors.protocol);
-  } else if (start === "remove" && indicesStart.w < 0 && indicesStart.h >= 0) {
+  } else if (start === "remove" && indicesStart.w < 0 && indicesStart.h >= 0) { // If there's a protocol but no 'www'
     slicedURL = slicedURL.slice(indicesStart.h + 3);
-    console.log(errors.www);
   }
 
   let indexSlash = slicedURL.indexOf("/", slicedURL.indexOf("://") + 3);
