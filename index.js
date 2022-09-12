@@ -27,6 +27,12 @@ Desired outputs:
 4. else if end= remove, slice based on indices.c 
 */
 
+export const errors = {
+  protocol: `ERROR: It looks like your link does not include "https://" nor "http://"`,
+  www: `ERROR: It looks like your link does not include "www"`,
+  path: `ERROR: It looks like your link does not include a path`
+}
+
 function clipper(url, start, end) {
   let slicedURL = url;
 
@@ -44,11 +50,9 @@ function clipper(url, start, end) {
     slicedURL = slicedURL.slice(indicesStart.w + 4);
     console.log(slicedURL);
   } else if (start === "shorten" && indicesStart.h < 0) {
-    console.log(
-      `ERROR: It looks like your link does not include "https://" nor "http://"`
-    );
+    console.log(errors.protocol);
   } else if (start === "remove" && indicesStart.w < 0) {
-    console.log(`ERROR: It looks like your link does not include "www"`);
+    console.log(errors.www);
   }
 
   let indexSlash = slicedURL.indexOf("/", slicedURL.indexOf("://") + 3);
@@ -61,9 +65,7 @@ function clipper(url, start, end) {
     slicedURL = slicedURL.slice(0, indexSlash);
     console.log(slicedURL);
   } else if (end === "shorten" && indexSlash < 0) {
-    console.log(
-      `ERROR: It looks like your link does not include any sub-directory(s).`
-    );
+    console.log(errors.path);
   }
 
   return slicedURL;
@@ -81,7 +83,7 @@ function clipper(url, start, end) {
 
 // At this point, the user may want either:
 // 1. the string as it currently is at this point
-// 2. remove the directory (/ and everything after it)
+// 2. remove the path (/ and everything after it)
 // 3. just get the site name ('google')
 // How do we differentiate between maps.google.com and google.co.uk?
 

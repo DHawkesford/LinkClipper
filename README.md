@@ -38,13 +38,19 @@ The URL string to be shortened.
 
 `start`
 
-The extent to which to clip the beginning of the URL string. The options are 'none', 'shorten' and 'remove'.
+The extent to which to clip the beginning of the URL string. The options are: 
+    
+- `none`: Does not clip the beginning of the URL.
 
-`end`
+- `shorten`: Clips the protocol and the following '//' characters from the beginning of the URL (http://, https://, ftp://).
 
-The extent to which to clip the end of the URL string. The options are 'none', 'shorten' and 'remove'.
+- `remove`: Clips the protocol and the following '//' characters from the beginning of the URL, and clips the 'www' subdomain.
 
-> Note: If the `end` parameter is set to 'remove', you should strongly consider setting the `start` parameter to also be 'remove'. Otherwise your returned string will look unusual.
+`end` [Optional]
+
+The extent to which to clip the end of the URL string. Currently the only option is 'shorten'. If omitted, the end of the URL string will not be clipped.
+
+- `shorten`: Clips the path from the end of the URL (including the starting '/' character).
 
 ### Return value
 
@@ -56,23 +62,17 @@ A new string containing the clipped URL. The original string is not modified.
     
     const url = 'https://www.stackoverflow.com/questions/11227809/why-is-processing-a-sorted-array-faster-than-processing-an-unsorted-array';
 
-    console.log(clipper(url, 'none', 'none')) // OUTPUT: 'https://www.stackoverflow.com/questions/11227809/why-is-processing-a-sorted-array-faster-than-processing-an-unsorted-array'
+    console.log(clipper(url, 'none')) // OUTPUT: 'https://www.stackoverflow.com/questions/11227809/why-is-processing-a-sorted-array-faster-than-processing-an-unsorted-array'
 
-    console.log(clipper(url, 'shorten', 'none')) // OUTPUT: 'www.stackoverflow.com/questions/11227809/why-is-processing-a-sorted-array-faster-than-processing-an-unsorted-array'
+    console.log(clipper(url, 'shorten')) // OUTPUT: 'www.stackoverflow.com/questions/11227809/why-is-processing-a-sorted-array-faster-than-processing-an-unsorted-array'
 
-    console.log(clipper(url, 'remove', 'none')) // OUTPUT: 'stackoverflow.com/questions/11227809/why-is-processing-a-sorted-array-faster-than-processing-an-unsorted-array'
+    console.log(clipper(url, 'remove')) // OUTPUT: 'stackoverflow.com/questions/11227809/why-is-processing-a-sorted-array-faster-than-processing-an-unsorted-array'
 
     console.log(clipper(url, 'none', 'shorten')) // OUTPUT: 'https://www.stackoverflow.com'
 
     console.log(clipper(url, 'shorten', 'shorten')) // OUTPUT: 'www.stackoverflow.com'
 
     console.log(clipper(url, 'remove', 'shorten')) // OUTPUT: 'stackoverflow.com'
-
-    console.log(clipper(url, 'none', 'remove')) // OUTPUT: 'https://www.stackoverflow'
-
-    console.log(clipper(url, 'shorten', 'remove')) // OUTPUT: 'www.stackoverflow'
-
-    console.log(clipper(url, 'remove', 'remove')) // OUTPUT: 'stackoverflow'
 
 ## Future plans
 
