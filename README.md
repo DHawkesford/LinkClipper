@@ -26,6 +26,10 @@ With this project our goal was to create a simple package that would be helpful 
 
 ## Usage
 
+### Installation
+
+    npm i linkclipper
+
 ### Syntax
 
     clipper(url, start, end)
@@ -42,15 +46,15 @@ The extent to which to clip the beginning of the URL string. The options are:
     
 - `none`: Does not clip the beginning of the URL.
 
-- `shorten`: Clips the protocol and the following '//' characters from the beginning of the URL (http://, https://, ftp://).
+- `shorten`: Removes the protocol from the beginning of the URL (e.g. http://, https://, ftp://).
 
-- `remove`: Clips the protocol and the following '//' characters from the beginning of the URL, and clips the 'www' subdomain.
+- `remove`: Removes the protocol and the 'www' subdomain from the beginning of the URL.
 
 `end` [Optional]
 
 The extent to which to clip the end of the URL string. Currently the only option is 'shorten'. If omitted, the end of the URL string will not be clipped.
 
-- `shorten`: Clips the path from the end of the URL (including the starting '/' character).
+- `shorten`: Removes the path from the end of the URL (i.e. everything that comes after '.com' or other domain).
 
 ### Return value
 
@@ -62,21 +66,21 @@ A new string containing the clipped URL. The original string is not modified.
     
     const url = 'https://www.stackoverflow.com/questions/11227809/why-is-processing-a-sorted-array-faster-than-processing-an-unsorted-array';
 
-    console.log(clipper(url, 'none')) // OUTPUT: 'https://www.stackoverflow.com/questions/11227809/why-is-processing-a-sorted-array-faster-than-processing-an-unsorted-array'
+    clipper(url, 'none') // OUTPUT: 'https://www.stackoverflow.com/questions/11227809/why-is-processing-a-sorted-array-faster-than-processing-an-unsorted-array'
 
-    console.log(clipper(url, 'shorten')) // OUTPUT: 'www.stackoverflow.com/questions/11227809/why-is-processing-a-sorted-array-faster-than-processing-an-unsorted-array'
+    clipper(url, 'shorten') // OUTPUT: 'www.stackoverflow.com/questions/11227809/why-is-processing-a-sorted-array-faster-than-processing-an-unsorted-array'
 
-    console.log(clipper(url, 'remove')) // OUTPUT: 'stackoverflow.com/questions/11227809/why-is-processing-a-sorted-array-faster-than-processing-an-unsorted-array'
+    clipper(url, 'remove') // OUTPUT: 'stackoverflow.com/questions/11227809/why-is-processing-a-sorted-array-faster-than-processing-an-unsorted-array'
 
-    console.log(clipper(url, 'none', 'shorten')) // OUTPUT: 'https://www.stackoverflow.com'
+    clipper(url, 'none', 'shorten') // OUTPUT: 'https://www.stackoverflow.com'
 
-    console.log(clipper(url, 'shorten', 'shorten')) // OUTPUT: 'www.stackoverflow.com'
+    clipper(url, 'shorten', 'shorten') // OUTPUT: 'www.stackoverflow.com'
 
-    console.log(clipper(url, 'remove', 'shorten')) // OUTPUT: 'stackoverflow.com'
+    clipper(url, 'remove', 'shorten') // OUTPUT: 'stackoverflow.com'
 
 ## Future plans
 
-- Include an option for just obtaining the site name (e.g. 'github')
+- Include an option for just obtaining the site name (e.g. 'github').
 
 ## Acknowledgements
 
