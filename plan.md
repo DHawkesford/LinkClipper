@@ -1,9 +1,8 @@
-What's left to do:
+## Version 2.0.0 to do:
 
-1. Finish the tests ✅
-2. Change the console.log testing to a less strict matcher (including "Error") ✅
-3. Think about the start remove functionality- user would expect it to remove the whole start of url, regardless of whether it contains www., https: or both www. and https:// ✅
-4. Find solution for second and third level domain names. - Future plan ✅
-5. Update the Readme ✅
-6. Publish final version (copy readme to description ?)
-7. Do some marketing on slack
+1. Replace console logs with errors
+   -adjust tests accordingly
+2. Pull the little functions out into separate components (helpers)
+3. Add toUppercase so that the thing works regardless of casing of arguments (e.g. "remove" vs "Remove" vs "REMOVE")
+4. Find a way to clip the domain name (API/package?)
+5. Include Chris Miller in acknowledgements in Readme.
