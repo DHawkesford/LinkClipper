@@ -54,13 +54,17 @@ describe("Input validation", () => {
 
   test(`If the url parameter is a number, should return an error`, () => {
     expect(clipper(123, "none")).toBe(undefined);
-    expect(console.error).toHaveBeenCalledWith('URL needs to be a string.');
-  })
+    expect(console.error).toHaveBeenCalledWith("URL needs to be a string.");
+  });
 
   test(`If the url parameter is an array, should return an error`, () => {
-    expect(clipper(['Test'], "none")).toBe(undefined);
-    expect(console.error).toHaveBeenCalledWith('URL needs to be a string.');
-  })
+    expect(clipper(["Test"], "none")).toBe(undefined);
+    expect(console.error).toHaveBeenCalledWith("URL needs to be a string.");
+  });
+  test(`If the url parameter is an array with items corresponding to url elements, should return an error`, () => {
+    expect(clipper(["://", "www", "/"], "none")).toBe(undefined);
+    expect(console.error).toHaveBeenCalledWith("URL needs to be a string.");
+  });
 });
 
 describe("http://www.google.com/maps/place/Big+Ben/", () => {
