@@ -1,4 +1,5 @@
-import clipper, { errors } from "./index.js";
+import clipper from "./index.js";
+import { errors } from "./helpers.js";
 import jest from "jest-mock";
 
 /*
