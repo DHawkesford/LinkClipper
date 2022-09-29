@@ -49,6 +49,20 @@ clipper(none), clipper(shorten), clipper(remove)
 clipper(none, shorten), clipper(shorten, shorten), clipper(remove, shorten)
 */
 
+describe("Input validation", () => {
+  console.error = jest.fn();
+
+  test(`If the url parameter is a number, should return an error`, () => {
+    expect(clipper(123, "none")).toBe(undefined);
+    expect(console.error).toHaveBeenCalledWith('URL needs to be a string.');
+  })
+
+  test(`If the url parameter is an array, should return an error`, () => {
+    expect(clipper(['Test'], "none")).toBe(undefined);
+    expect(console.error).toHaveBeenCalledWith('URL needs to be a string.');
+  })
+});
+
 describe("http://www.google.com/maps/place/Big+Ben/", () => {
   const url = "http://www.google.com/maps/place/Big+Ben/";
   console.error = jest.fn();
