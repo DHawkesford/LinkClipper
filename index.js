@@ -11,36 +11,35 @@ function clipper(url, start, end) {
     h: slicedURL.indexOf("://"),
     w: slicedURL.indexOf("www"),
   };
+  try {
+    if (start === "shorten" && indicesStart.h >= 0) {
+      // If there's a protocol
+      slicedURL = slicedURL.slice(indicesStart.h + 3);
+      console.log(slicedURL);
+    } else if (start === "remove" && indicesStart.w >= 0) {
+      // If there's a 'www'
+      slicedURL = slicedURL.slice(indicesStart.w + 4);
+      console.log(slicedURL);
+    } // If there's no protocol:
+    else if (start === "shorten" && indicesStart.h < 0) throw errors.protocol;
+    else if (start === "remove" && indicesStart.w < 0 && indicesStart.h >= 0) {
+      // If there's a protocol but no 'www'
+      slicedURL = slicedURL.slice(indicesStart.h + 3);
+    }
 
-  if (start === "shorten" && indicesStart.h >= 0) {
-    // If there's a protocol
-    slicedURL = slicedURL.slice(indicesStart.h + 3);
-    console.log(slicedURL);
-  } else if (start === "remove" && indicesStart.w >= 0) {
-    // If there's a 'www'
-    slicedURL = slicedURL.slice(indicesStart.w + 4);
-    console.log(slicedURL);
-  } else if (start === "shorten" && indicesStart.h < 0) {
-    // If there's no protocol
-    console.log(errors.protocol);
-  } else if (start === "remove" && indicesStart.w < 0 && indicesStart.h >= 0) {
-    // If there's a protocol but no 'www'
-    slicedURL = slicedURL.slice(indicesStart.h + 3);
+    let indexSlash = slicedURL.indexOf("/", slicedURL.indexOf("://") + 3);
+
+    if (slicedURL.indexOf("://") < 0) {
+      indexSlash = slicedURL.indexOf("/");
+    }
+
+    if (end === "shorten" && indexSlash >= 0) {
+      slicedURL = slicedURL.slice(0, indexSlash);
+      console.log(slicedURL);
+    } else if (end === "shorten" && indexSlash < 0) throw errors.path;
+  } catch (err) {
+    console.error(err);
   }
-
-  let indexSlash = slicedURL.indexOf("/", slicedURL.indexOf("://") + 3);
-
-  if (slicedURL.indexOf("://") < 0) {
-    indexSlash = slicedURL.indexOf("/");
-  }
-
-  if (end === "shorten" && indexSlash >= 0) {
-    slicedURL = slicedURL.slice(0, indexSlash);
-    console.log(slicedURL);
-  } else if (end === "shorten" && indexSlash < 0) {
-    console.log(errors.path);
-  }
-
   return slicedURL;
 }
 
