@@ -67,6 +67,35 @@ describe("Input validation", () => {
   });
 });
 
+describe("Case checking", () => {
+  const url = "http://www.google.com/maps/place/Big+Ben/";
+  console.error = jest.fn();
+
+  test(`clipper(url, "none") should return "http://www.google.com/maps/place/Big+Ben/"`, () => {
+    expect(clipper(url, "none")).toBe(url);
+  });
+
+  test(`clipper(url, "sHorTen") should return "www.google.com/maps/place/Big+Ben/"`, () => {
+    expect(clipper(url, "shorten")).toBe("www.google.com/maps/place/Big+Ben/");
+  });
+
+  test(`clipper(url, "remOVE") should return "google.com/maps/place/Big+Ben/"`, () => {
+    expect(clipper(url, "remove")).toBe("google.com/maps/place/Big+Ben/");
+  });
+
+  test(`clipper(url, "NOne", "shoRTen") should return "http://www.google.com"`, () => {
+    expect(clipper(url, "none", "shorten")).toBe("http://www.google.com");
+  });
+
+  test(`clipper(url, "SHorten", "SHorten") should return "www.google.com"`, () => {
+    expect(clipper(url, "shorten", "shorten")).toBe("www.google.com");
+  });
+
+  test(`clipper(url, "remOVE", "shoRten") should return "google.com"`, () => {
+    expect(clipper(url, "remove", "shorten")).toBe("google.com");
+  });
+});
+
 describe("http://www.google.com/maps/place/Big+Ben/", () => {
   const url = "http://www.google.com/maps/place/Big+Ben/";
   console.error = jest.fn();
