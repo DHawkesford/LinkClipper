@@ -1,5 +1,6 @@
 import tlds from "tlds" assert { type: "json" };
 
+
 export const errors = {
   protocol: `ERROR: It looks like your link does not include "https://" nor "http://"`,
   www: `ERROR: It looks like your link does not include "www"`,
@@ -59,16 +60,15 @@ export function clipEnd(url, end) {
 }
 
 export function getSiteName(url) {
-    // let key = '';
+  // let key = '';
+  const matchesArr = [];
     for (let i = 0; i < tlds.length; i++) {
         let key = `([.]${tlds[i]}[.]|[.]${tlds[i]}$)`;
-        const regex = new RegExp(key, "i");
-        const matches = regex.test(url);
-        if (matches) {
-            return tlds[i];
-        }
+        const regex = new RegExp(key, "gi");
+        const doesItMatch = regex.test(url);
+        doesItMatch ? matchesArr.push(tlds[i]) : null;
     } 
-    return 'No matches';
+    return matchesArr.length ? matchesArr : "no matches found";
 }
 
 console.log(getSiteName('www.zzzz.co.uk'))
