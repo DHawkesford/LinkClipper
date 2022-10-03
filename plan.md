@@ -6,4 +6,5 @@
 3. ✅ Input validation to check whether the URL is a string.
 4. Add toUppercase so that the thing works regardless of casing of arguments (e.g. "remove" vs "Remove" vs "REMOVE")
 5. Find a way to clip the domain name (API/package?)
+   - Account for URLs such as broadway.com where the site name also happens to be a TLD
 6. Include Chris Miller in acknowledgements in Readme.

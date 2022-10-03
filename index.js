@@ -1,7 +1,4 @@
 import { clipStart, clipEnd } from "./helpers.js";
-import tlds from "tlds";
-
-console.log(tlds);
 
 function clipper(url, start, end) {
   try {

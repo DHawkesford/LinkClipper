@@ -1,3 +1,5 @@
+import tlds from "tlds" assert { type: "json" };
+
 export const errors = {
   protocol: `ERROR: It looks like your link does not include "https://" nor "http://"`,
   www: `ERROR: It looks like your link does not include "www"`,
@@ -55,3 +57,20 @@ export function clipEnd(url, end) {
 
   return slicedURL;
 }
+
+export function getSiteName(url) {
+    // let key = '';
+    for (let i = 0; i < tlds.length; i++) {
+        let key = `([.]${tlds[i]}[.]|[.]${tlds[i]}$)`;
+        const regex = new RegExp(key, "i");
+        const matches = regex.test(url);
+        if (matches) {
+            return tlds[i];
+        }
+    } 
+    return 'No matches';
+}
+
+console.log(getSiteName('www.zzzz.co.uk'))
+console.log(getSiteName('www.google.com'))
+console.log(getSiteName('www.google.xyz'))
