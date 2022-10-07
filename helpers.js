@@ -63,7 +63,7 @@ export function getSiteName(url) {
   // let key = '';
   const matchesArr = [];
     for (let i = 0; i < tlds.length; i++) {
-        let key = `/([.]${tlds[i]}[.]|[.]${tlds[i]}$|[.]${tlds[i]}\/)/`;
+        let key = `([.]${tlds[i]}[.]|[.]${tlds[i]}$|[.]${tlds[i]}\/)`;
         const regex = new RegExp(key, "gi");
         const doesItMatch = regex.test(url);
         doesItMatch ? matchesArr.push(tlds[i]) : null;
@@ -71,7 +71,7 @@ export function getSiteName(url) {
     return matchesArr.length ? matchesArr : "no matches found";
 }
 
-console.log(getSiteName('www.zzzz.co.uk'))
+console.log(getSiteName('www.zzzz.co.uk/whatever'))
 console.log(getSiteName('www.google.com'))
 console.log(getSiteName('www.google.com/whwhw'))
 console.log(getSiteName('www.google.xyz'))
