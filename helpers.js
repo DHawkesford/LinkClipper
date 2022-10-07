@@ -44,7 +44,8 @@ export function clipEnd(url, end) {
   var end = end.toUpperCase();
   try {
     let indexSlash = url.indexOf("/", slicedURL.indexOf("://") + 3);
-
+    
+    // TODO: Potentially update this to use the TLD instead
     if (url.indexOf("://") < 0) {
       indexSlash = url.indexOf("/");
     }
@@ -52,6 +53,13 @@ export function clipEnd(url, end) {
     if (end === "SHORTEN" && indexSlash >= 0) {
       slicedURL = url.slice(0, indexSlash);
     } else if (end === "SHORTEN" && indexSlash < 0) throw errors.path;
+
+    if (end === "REMOVE") {
+      
+      // Slice the url from 0 up to that index 
+      // Note: This will fail for sites like google
+    }
+
   } catch (err) {
     console.error(err);
   }
@@ -60,18 +68,21 @@ export function clipEnd(url, end) {
 }
 
 export function getSiteName(url) {
-  // let key = '';
   const matchesArr = [];
     for (let i = 0; i < tlds.length; i++) {
-        let key = `([.]${tlds[i]}[.]|[.]${tlds[i]}$|[.]${tlds[i]}\/)`;
+        let key = `(\\.${tlds[i]}\\.|\\.${tlds[i]}$|\\.${tlds[i]}\/)`;
         const regex = new RegExp(key, "gi");
-        const doesItMatch = regex.test(url);
-        doesItMatch ? matchesArr.push(tlds[i]) : null;
+        const index = url.search(regex);
+        index >= 0 ? matchesArr.push(index) : null;
     } 
-    return matchesArr.length ? matchesArr : "no matches found";
+    return matchesArr.length ? Math.min(...matchesArr) : "no matches found";
 }
 
+console.log(getSiteName('http://maps.zzzz.co.uk/whatever'))
+console.log(getSiteName('http://www.zzzz.co.uk/whatever'))
 console.log(getSiteName('www.zzzz.co.uk/whatever'))
+console.log(getSiteName('zzzz.co.uk/whatever'))
+console.log(getSiteName('maps.google.com'))
 console.log(getSiteName('www.google.com'))
 console.log(getSiteName('www.google.com/whwhw'))
 console.log(getSiteName('www.google.xyz'))
