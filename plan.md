@@ -7,7 +7,7 @@
 4. ✅ Add toUppercase so that the thing works regardless of casing of arguments (e.g. "remove" vs "Remove" vs "REMOVE") 
 5. ✅ Find a way to clip the domain name (API/package?) 
 6. Include Chris Miller in acknowledgements in Readme.
-7. Refactor the Regex
+7. ✅ Refactor the Regex
 8. Refactor helpers.js to make it more uniform
    -clipStart has more & different if conditions than clipEnd
    -clipStart throws an error at clipping stage whilst clipEnd throws it at index computation stage (this may r may not be a problem)

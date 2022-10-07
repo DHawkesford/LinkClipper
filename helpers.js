@@ -1,6 +1,5 @@
 import tlds from "tlds" assert { type: "json" };
 
-
 export const errors = {
   protocol: `ERROR: It looks like your link does not include "https://" nor "http://"`,
   www: `ERROR: It looks like your link does not include "www"`,
@@ -17,22 +16,24 @@ export function clipStart(url, start) {
   var slicedURL = url;
   var start = start.toUpperCase();
   try {
-    if (start === "SHORTEN" && indicesStart.h >= 0) {
-      // If there's a protocol
-      slicedURL = url.slice(indicesStart.h + 3);
-    } else if (start === "REMOVE" && indicesStart.w >= 0) {
-      // If there's a 'www'
-      slicedURL = url.slice(indicesStart.w + 4);
-    } else if (
-      start === "REMOVE" &&
-      indicesStart.w < 0 &&
-      indicesStart.h >= 0
-    ) {
-      // If there's a protocol but no 'www'
-      slicedURL = url.slice(indicesStart.h + 3);
+    switch (start) {
+      case "SHORTEN":
+        if (indicesStart.h >= 0) {
+          slicedURL = url.slice(indicesStart.h + 3); // TODO: Potentially make a helper function that does this
+        } else if (indicesStart.h < 0) {
+          throw errors.protocol;
+        }
+        break;
+      case "REMOVE": // google.co.uk/whatever
+        if (indicesStart.w >= 0) {
+          slicedURL = url.slice(indicesStart.w + 4);
+        } else if (indicesStart.w < 0 && indicesStart.h >= 0) {
+          slicedURL = url.slice(indicesStart.h + 3); // TODO: See above
+        } else if (indicesStart.w < 0 && indicesStart.h < 0) {
+          throw errors.www
+        }
+        break;
     }
-    // If there's no protocol:
-    else if (start === "SHORTEN" && indicesStart.h < 0) throw errors.protocol;
   } catch (err) {
     console.error(err);
   }
