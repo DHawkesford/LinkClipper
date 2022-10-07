@@ -13,7 +13,7 @@ export function clipStart(url, start) {
     h: url.indexOf("://"),
     w: url.indexOf("www"),
   };
-
+//TODO: add error for REMOVE when there's no protocol
   var slicedURL = url;
   var start = start.toUpperCase();
   try {
@@ -44,21 +44,16 @@ export function clipEnd(url, end) {
   var slicedURL = url;
   var end = end.toUpperCase();
   try {
-    let indexSlash = url.indexOf("/", slicedURL.indexOf("://") + 3);
     const indexTLD = getFirstTLDIndex(url);
-    
-    // TODO: Potentially update this to use the TLD instead
-    if (url.indexOf("://") < 0) {
-      indexSlash = url.indexOf("/");
-    }
+    let indexSlash = url.indexOf("/", indexTLD )
 
     if (end === "SHORTEN" && indexSlash >= 0) {
       slicedURL = url.slice(0, indexSlash);
     } else if (end === "SHORTEN" && indexSlash < 0) throw errors.path;
 
-    if (end === "REMOVE" && indexTLD >= 0) {
+    if (end === "REMOVE") {
       slicedURL = url.slice(0, indexTLD);
-    } else if (end === "REMOVE" && indexTLD < 0) throw errors.TLD;
+    } 
 
   } catch (err) {
     console.error(err);
@@ -76,7 +71,9 @@ export function getFirstTLDIndex(url) {
         const index = url.search(regex);
         index >= 0 ? matchesArr.push(index) : null;
     } 
-    return matchesArr.length ? Math.min(...matchesArr) : -1;
+    if (matchesArr.length > 0) {
+      return Math.min(...matchesArr)
+    } else throw errors.TLD;
 }
 
 // console.log(getFirstTLDIndex('http://maps.zzzz.co.uk/whatever'))
