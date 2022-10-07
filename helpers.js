@@ -5,6 +5,7 @@ export const errors = {
   protocol: `ERROR: It looks like your link does not include "https://" nor "http://"`,
   www: `ERROR: It looks like your link does not include "www"`,
   path: `ERROR: It looks like your link does not include a path`,
+  TLD: `ERROR: It looks like your link does not include a domain name`
 };
 
 export function clipStart(url, start) {
@@ -44,6 +45,7 @@ export function clipEnd(url, end) {
   var end = end.toUpperCase();
   try {
     let indexSlash = url.indexOf("/", slicedURL.indexOf("://") + 3);
+    const indexTLD = getFirstTLDIndex(url);
     
     // TODO: Potentially update this to use the TLD instead
     if (url.indexOf("://") < 0) {
@@ -54,11 +56,9 @@ export function clipEnd(url, end) {
       slicedURL = url.slice(0, indexSlash);
     } else if (end === "SHORTEN" && indexSlash < 0) throw errors.path;
 
-    if (end === "REMOVE") {
-      
-      // Slice the url from 0 up to that index 
-      // Note: This will fail for sites like google
-    }
+    if (end === "REMOVE" && indexTLD >= 0) {
+      slicedURL = url.slice(0, indexTLD);
+    } else if (end === "REMOVE" && indexTLD < 0) throw errors.TLD;
 
   } catch (err) {
     console.error(err);
@@ -67,23 +67,24 @@ export function clipEnd(url, end) {
   return slicedURL;
 }
 
-export function getSiteName(url) {
+export function getFirstTLDIndex(url) {
   const matchesArr = [];
     for (let i = 0; i < tlds.length; i++) {
         let key = `(\\.${tlds[i]}\\.|\\.${tlds[i]}$|\\.${tlds[i]}\/)`;
+        // The 'google' problem: if TLD is preceded by http://, www, or start of line, then don't remove it
         const regex = new RegExp(key, "gi");
         const index = url.search(regex);
         index >= 0 ? matchesArr.push(index) : null;
     } 
-    return matchesArr.length ? Math.min(...matchesArr) : "no matches found";
+    return matchesArr.length ? Math.min(...matchesArr) : -1;
 }
 
-console.log(getSiteName('http://maps.zzzz.co.uk/whatever'))
-console.log(getSiteName('http://www.zzzz.co.uk/whatever'))
-console.log(getSiteName('www.zzzz.co.uk/whatever'))
-console.log(getSiteName('zzzz.co.uk/whatever'))
-console.log(getSiteName('maps.google.com'))
-console.log(getSiteName('www.google.com'))
-console.log(getSiteName('www.google.com/whwhw'))
-console.log(getSiteName('www.google.xyz'))
-console.log(getSiteName('www.google.xyz/whwhw'))
+// console.log(getFirstTLDIndex('http://maps.zzzz.co.uk/whatever'))
+// console.log(getFirstTLDIndex('http://www.zzzz.co.uk/whatever'))
+// console.log(getFirstTLDIndex('www.zzzz.co.uk/whatever'))
+// console.log(getFirstTLDIndex('zzzz.co.uk/whatever'))
+// console.log(getFirstTLDIndex('maps.google.com'))
+// console.log(getFirstTLDIndex('www.google.com'))
+// console.log(getFirstTLDIndex('www.google.com/whwhw'))
+// console.log(getFirstTLDIndex('www.google.xyz'))
+// console.log(getFirstTLDIndex('www.google.xyz/whwhw'))
