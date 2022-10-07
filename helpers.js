@@ -20,18 +20,14 @@ export function clipStart(url, start) {
       case "SHORTEN":
         if (indicesStart.h >= 0) {
           slicedURL = url.slice(indicesStart.h + 3); // TODO: Potentially make a helper function that does this
-        } else if (indicesStart.h < 0) {
-          throw errors.protocol;
-        }
+        } else throw errors.protocol;
         break;
       case "REMOVE": // google.co.uk/whatever
         if (indicesStart.w >= 0) {
           slicedURL = url.slice(indicesStart.w + 4);
         } else if (indicesStart.w < 0 && indicesStart.h >= 0) {
           slicedURL = url.slice(indicesStart.h + 3); // TODO: See above
-        } else if (indicesStart.w < 0 && indicesStart.h < 0) {
-          throw errors.www;
-        }
+        } else throw errors.www;
         break;
     }
   } catch (err) {
