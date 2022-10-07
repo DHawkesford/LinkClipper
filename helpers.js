@@ -65,7 +65,7 @@ export function clipEnd(url, end) {
 export function getFirstTLDIndex(url) {
   const matchesArr = [];
     for (let i = 0; i < tlds.length; i++) {
-        let key = `(\\.${tlds[i]}\\.|\\.${tlds[i]}$|\\.${tlds[i]}\/)`;
+        let key = `(\\.${tlds[i]}(\\.|\/|$))`;
         // The 'google' problem: if TLD is preceded by http://, www, or start of line, then don't remove it
         const regex = new RegExp(key, "gi");
         const index = url.search(regex);
@@ -76,12 +76,12 @@ export function getFirstTLDIndex(url) {
     } else throw errors.TLD;
 }
 
-// console.log(getFirstTLDIndex('http://maps.zzzz.co.uk/whatever'))
-// console.log(getFirstTLDIndex('http://www.zzzz.co.uk/whatever'))
-// console.log(getFirstTLDIndex('www.zzzz.co.uk/whatever'))
-// console.log(getFirstTLDIndex('zzzz.co.uk/whatever'))
-// console.log(getFirstTLDIndex('maps.google.com'))
-// console.log(getFirstTLDIndex('www.google.com'))
-// console.log(getFirstTLDIndex('www.google.com/whwhw'))
-// console.log(getFirstTLDIndex('www.google.xyz'))
-// console.log(getFirstTLDIndex('www.google.xyz/whwhw'))
+console.log(getFirstTLDIndex('http://maps.zzzz.co.uk/whatever'))
+console.log(getFirstTLDIndex('http://www.zzzz.co.uk/whatever'))
+console.log(getFirstTLDIndex('www.zzzz.co.uk/whatever'))
+console.log(getFirstTLDIndex('zzzz.co.uk/whatever'))
+console.log(getFirstTLDIndex('maps.google.com'))
+console.log(getFirstTLDIndex('www.google.com'))
+console.log(getFirstTLDIndex('www.google.com/whwhw'))
+console.log(getFirstTLDIndex('www.google.xyz'))
+console.log(getFirstTLDIndex('www.google.xyz/whwhw'))
