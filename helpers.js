@@ -5,7 +5,7 @@ export const errors = {
   protocol: `ERROR: It looks like your link does not include "https://" nor "http://"`,
   www: `ERROR: It looks like your link does not include "www"`,
   path: `ERROR: It looks like your link does not include a path`,
-  TLD: `ERROR: It looks like your link does not include a domain name`,
+  tld: `ERROR: It looks like your link does not include a domain name`,
 };
 
 function getCutoffPoints(url) {
@@ -59,7 +59,7 @@ export function clipEnd(url, end) {
       case "REMOVE":
         if (cutoffPoints.tld >= 0) {
           url = url.slice(0, cutoffPoints.tld);
-        } else throw errors.TLD;
+        } else throw errors.tld;
         break;
     }
   } catch (err) {
