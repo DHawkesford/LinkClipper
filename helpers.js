@@ -2,10 +2,10 @@
 import tldsArr from "tlds"; 
 
 export const errors = {
-  protocol: `ERROR: It looks like your link does not include "https://" nor "http://"`,
-  www: `ERROR: It looks like your link does not include "www"`,
-  path: `ERROR: It looks like your link does not include a path`,
-  tld: `ERROR: It looks like your link does not include a domain name`,
+  protocol: `ERROR: It looks like your link already does not include "https://" nor "http://"`,
+  noStart: `ERROR: It looks like your link already does not include "www", "https://" nor "http://"`,
+  path: `ERROR: It looks like your link already does not include a path`,
+  tld: `ERROR: It looks like your link already does not include a domain name`,
 };
 
 function getCutoffPoints(url) {
@@ -35,7 +35,7 @@ export function clipStart(url, start) {
           url = url.slice(cutoffPoints.www + 4);
         } else if (cutoffPoints.www < 0 && cutoffPoints.protocol >= 0) {
           url = url.slice(cutoffPoints.protocol + 3); // TODO: See above
-        } else throw errors.www;
+        } else throw errors.noStart;
         break;
     }
   } catch (err) {
