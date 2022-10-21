@@ -57,7 +57,9 @@ export function clipEnd(url, end) {
         } else throw errors.path;
         break;
       case "REMOVE":
-        url = url.slice(0, cutoffPoints.tld);
+        if (cutoffPoints.tld >= 0) {
+          url = url.slice(0, cutoffPoints.tld);
+        } else throw errors.TLD;
         break;
     }
   } catch (err) {
@@ -76,13 +78,9 @@ export function getFirstTLDIndex(url) {
     const index = url.search(regex);
     index >= 0 ? matchesArr.push(index) : null;
   }
-  try {
-    if (matchesArr.length > 0) {
-      return Math.min(...matchesArr);
-    } else throw errors.TLD;
-  } catch (err) {
-    console.error(err);
-  }
+  if (matchesArr.length > 0) {
+    return Math.min(...matchesArr);
+  } else return -1;
 }
 
 // console.log(getFirstTLDIndex("http://maps.zzzz.co.uk/whatever"));
