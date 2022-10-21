@@ -23,8 +23,8 @@ Block I: just one site name
   
     III: No protocol:
   - www.example.com/maps/place/Big+Ben/ 
-  - www.example.com 
   - example.com/maps/place/Big+Ben/ 
+  - www.example.com 
   - example.com 
 
 
@@ -50,28 +50,41 @@ Block I: just one site name
 Block II: double site name
   A: single domain name:
     I: https protocol
+    -  https://www.maps.example.com/maps/place/Big+Ben/
     -  https://maps.example.com/maps/place/Big+Ben/
-    -  https://maps.example.com
+    -  https://www.maps.example.com
+    -  https://maps.example.com 
 
     II: http protocol
+    -  http://www.maps.example.com/maps/place/Big+Ben/
     -  http://maps.example.com/maps/place/Big+Ben/
+    -  http://www.maps.example.com
     -  http://maps.example.com
 
     III. no protocol
-    - maps.example.com/maps/place/Big+Ben/
+    - www.maps.example.com/maps/place/Big+Ben/ 
+    - maps.example.com/maps/place/Big+Ben/ 
+    - www.maps.example.com 
     - maps.example.com 
 
     B:double domain name
-     I: https protocol
-     - https://maps.example.co.uk/maps/place/Big+Ben/
-     - https://maps.example.co.uk
+    I: https protocol
+    - https://www.maps.example.co.uk/maps/place/Big+Ben/
+    - https://maps.example.co.uk/maps/place/Big+Ben/ 
+    - https://www.maps.example.co.uk
+    - https://maps.example.co.uk
+    
+    II. http protocol: 
+    -  http://www.maps.example.co.uk/maps/place/Big+Ben/
+    -  http://maps.example.co.uk/maps/place/Big+Ben/
+    -  http://www.maps.example.co.uk
+    -  http://maps.example.co.uk
 
-     II: http protocol
-     - http://maps.example.co.uk/maps/place/Big+Ben/
-     - http://maps.example.co.uk
-     III. no protocol
-     - maps.example.co.uk/maps/place/Big+Ben/ 
-     - maps.example.co.uk 
+    III. No protocol:
+    - www.maps.example.co.uk/maps/place/Big+Ben/ 
+    - maps.example.co.uk/maps/place/Big+Ben/ 
+    - www.maps.example.co.uk 
+    - maps.example.co.uk 
 
 clipper(none), clipper(shorten), clipper(remove)
 clipper(none, shorten), clipper(shorten, shorten), clipper(remove, shorten)
@@ -253,6 +266,134 @@ describe("www.example.com", () => {
 describe("example.com ", () => {
   tester("", "", "", "example", ".com", "", "");
 });
+
+// SINGLE SITE NAME | DOUBLE DOMAIN | HTTPS
+describe("https://www.example.co.uk/maps/place/Big+Ben/", () => {
+  tester("https://", "www.", "", "example", ".co", ".uk", "/maps/place/Big+Ben/");
+});
+describe("https://example.co.uk/maps/place/Big+Ben/", () => {
+  tester("https://", "", "", "example", ".co", ".uk", "/maps/place/Big+Ben/");
+});
+describe("https://www.example.co", () => {
+  tester("https://", "www.", "", "example", ".co", ".uk", "");
+});
+describe("https://example.co.uk ", () => {
+  tester("https://", "", "", "example", ".co", ".uk", "");
+});
+
+//SINGLE SITE NAME | DOUBLE DOMAIN | HTTP
+describe("http://www.example.co.uk/maps/place/Big+Ben/", () => {
+  tester("http://", "www.", "", "example", ".co", ".uk", "/maps/place/Big+Ben/");
+});
+describe("http://example.co.uk/maps/place/Big+Ben/", () => {
+  tester("http://", "", "", "example", ".co", ".uk", "/maps/place/Big+Ben/");
+});
+describe("http://www.example.co.uk", () => {
+  tester("http://", "www.", "", "example", ".co", ".uk", "");
+});
+describe("http://example.co.uk ", () => {
+  tester("http://", "", "", "example", ".co", ".uk", "");
+});
+
+//SINGLE SITE NAME |DOUBLE DOMAIN | NO PROTOCOL
+describe("www.example.co.uk/maps/place/Big+Ben/", () => {
+  tester("", "www.", "", "example", ".co", ".uk", "/maps/place/Big+Ben/");
+});
+describe("example.co.uk/maps/place/Big+Ben/", () => {
+  tester("", "", "", "example", ".co", ".uk", "/maps/place/Big+Ben/");
+});
+describe("www.example.co.uk", () => {
+  tester("", "www.", "", "example", ".co", ".uk", "");
+});
+describe("example.co.uk ", () => {
+  tester("", "", "", "example", ".co", ".uk", "");
+});
+
+// DOUBLE SITE NAME | SINGLE DOMAIN | HTTPS
+describe("https://www.maps.example.com/maps/place/Big+Ben/", () => {
+  tester("https://", "www.", "maps.maps.", "example", ".com", "", "/maps/place/Big+Ben/");
+});
+describe("https://maps.example.com/maps/place/Big+Ben/", () => {
+  tester("https://", "", "maps.", "example", ".com", "", "/maps/place/Big+Ben/");
+});
+describe("https://www.maps.example.com", () => {
+  tester("https://", "www.", "maps.", "example", ".com", "", "");
+});
+describe("https://maps.example.com ", () => {
+  tester("https://", "", "maps.", "example", ".com", "", "");
+});
+
+//DOUBLE SITE NAME | SINGLE DOMAIN | HTTP
+describe("http://www.maps.example.com/maps/place/Big+Ben/", () => {
+  tester("http://", "www.", "maps.", "example", ".com", "", "/maps/place/Big+Ben/");
+});
+describe("http://maps.example.com/maps/place/Big+Ben/", () => {
+  tester("http://", "", "maps.", "example", ".com", "", "/maps/place/Big+Ben/");
+});
+describe("http://www.maps.example.com", () => {
+  tester("http://", "www.", "maps.", "example", ".com", "", "");
+});
+describe("http://maps.example.com ", () => {
+  tester("http://", "", "maps.", "example", ".com", "", "");
+});
+
+//DOUBLE SITE NAME |SINGLE DOMAIN | NO PROTOCOL
+describe("www.maps.example.com/maps/place/Big+Ben/", () => {
+  tester("", "www.", "maps.", "example", ".com", "", "/maps/place/Big+Ben/");
+});
+describe("maps.example.com/maps/place/Big+Ben/", () => {
+  tester("", "", "maps.", "example", ".com", "", "/maps/place/Big+Ben/");
+});
+describe("www.maps.example.com", () => {
+  tester("", "www.", "maps.", "example", ".com", "", "");
+});
+describe("maps.example.com ", () => {
+  tester("", "", "maps.", "example", ".com", "", "");
+});
+
+// DOUBLE SITE NAME | DOUBLE DOMAIN | HTTPS
+describe("https://www.maps.example.co.uk/maps/place/Big+Ben/", () => {
+  tester("https://", "www.", "maps.", "example", ".co", ".uk", "/maps/place/Big+Ben/");
+});
+describe("https://maps.example.co.uk/maps/place/Big+Ben/", () => {
+  tester("https://", "", "maps.", "example", ".co", ".uk", "/maps/place/Big+Ben/");
+});
+describe("https://www.maps.example.co", () => {
+  tester("https://", "www.", "maps.", "example", ".co", ".uk", "");
+});
+describe("https://maps.example.co.uk ", () => {
+  tester("https://", "", "maps.", "example", ".co", ".uk", "");
+});
+
+//DOUBLE SITE NAME | DOUBLE DOMAIN | HTTP
+describe("http://www.maps.example.co.uk/maps/place/Big+Ben/", () => {
+  tester("http://", "www.", "maps.", "example", ".co", ".uk", "/maps/place/Big+Ben/");
+});
+describe("http://maps.example.co.uk/maps/place/Big+Ben/", () => {
+  tester("http://", "", "maps.", "example", ".co", ".uk", "/maps/place/Big+Ben/");
+});
+describe("http://www.maps.example.co.uk", () => {
+  tester("http://", "www.", "maps.", "example", ".co", ".uk", "");
+});
+describe("http://maps.example.co.uk ", () => {
+  tester("http://", "", "maps.", "example", ".co", ".uk", "");
+});
+
+//DOUBLE SITE NAME |DOUBLE DOMAIN | NO PROTOCOL
+describe("www.maps.example.co.uk/maps/place/Big+Ben/", () => {
+  tester("", "www.", "maps.", "example", ".co", ".uk", "/maps/place/Big+Ben/");
+});
+describe("maps.example.co.uk/maps/place/Big+Ben/", () => {
+  tester("", "", "maps.", "example", ".co", ".uk", "/maps/place/Big+Ben/");
+});
+describe("www.maps.example.co.uk", () => {
+  tester("", "www.", "maps.", "example", ".co", ".uk", "");
+});
+describe("maps.example.co.uk ", () => {
+  tester("", "", "maps.", "example", ".co", ".uk", "");
+});
+
+
 
 // describe("http://www.example.com", () => {
 //   var protocol = "http://";

@@ -15,7 +15,7 @@ function clipper(url, start, end) {
 
 export default clipper;
 
-console.log(clipper('www.google.co.uk', 'remove'));
+console.log(clipper('http://www.example.co.uk', 'remove', 'remove'));
 // console.log(clipper("http://maps.zzzz.co.uk/whatever", "remove", "remove"));
 // console.log(clipper("http://www.zzzz.co.uk/whatever", "remove", "remove"));
 // console.log(clipper("www.zzzz.co.uk/whatever", "remove", "remove"));
