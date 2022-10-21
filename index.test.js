@@ -6,44 +6,72 @@ import jest from "jest-mock";
 https://www.example.com/maps/place/Big+Ben/
 [http://, https://, none] + [www, maps, none] + . + example + . + [.com, .co.uk] + [/maps/place/Big+Ben, none]
 
-- ✅ http://www.example.com/maps/place/Big+Ben/
-- ✅ http://www.example.com
-- ✅ http://www.example.co.uk/maps/place/Big+Ben/
-- ✅ http://www.example.co.uk
-- ✅ http://maps.example.com/maps/place/Big+Ben/
-- DAN
-- ✅ http://maps.example.com
-- ✅ http://maps.example.co.uk/maps/place/Big+Ben/
-- ✅ http://maps.example.co.uk
-- ✅ http://example.com/maps/place/Big+Ben/
-- ✅ http://example.com
-- ✅ http://example.co.uk/maps/place/Big+Ben/
-- ✅ http://example.co.uk
-- ✅ https://www.example.com/maps/place/Big+Ben/
-- ✅ https://www.example.com
-- ✅ https://www.example.co.uk/maps/place/Big+Ben/
-- ✅ https://www.example.co.uk
-- ✅ https://maps.example.com/maps/place/Big+Ben/
-- ✅ https://maps.example.com
-- ✅ https://maps.example.co.uk/maps/place/Big+Ben/
-- ✅ https://maps.example.co.uk
-- ✅ https://example.com/maps/place/Big+Ben/
-- PHILIP
-- https://example.com ✅
-- https://example.co.uk/maps/place/Big+Ben/ ✅
-- https://example.co.uk ✅
-- www.example.com/maps/place/Big+Ben/ ✅
-- www.example.com ✅
-- www.example.co.uk/maps/place/Big+Ben/ ✅
-- www.example.co.uk ✅
-- maps.example.com/maps/place/Big+Ben/✅
-- maps.example.com ✅
-- maps.example.co.uk/maps/place/Big+Ben/ ✅
-- maps.example.co.uk ✅
-- example.com/maps/place/Big+Ben/ ✅
-- example.com ✅
-- example.co.uk/maps/place/Big+Ben/ ✅
-- example.co.uk ✅
+
+Block I: just one site name 
+   A: single domain name:
+    I: https protocol
+  -  https://www.example.com/maps/place/Big+Ben/
+  -  https://example.com/maps/place/Big+Ben/
+  -  https://www.example.com
+  - https://example.com 
+
+    II: http protol:
+  -  http://www.example.com/maps/place/Big+Ben/
+  -  http://example.com/maps/place/Big+Ben/
+  -  http://www.example.com
+  -  http://example.com
+  
+    III: No protocol:
+  - www.example.com/maps/place/Big+Ben/ 
+  - www.example.com 
+  - example.com/maps/place/Big+Ben/ 
+  - example.com 
+
+
+  //B: double domain name
+  I: https protocol
+  - https://www.example.co.uk/maps/place/Big+Ben/
+  - https://example.co.uk/maps/place/Big+Ben/ 
+  - https://www.example.co.uk
+  - https://example.co.uk
+  
+  II. http protocol: 
+-  http://www.example.co.uk/maps/place/Big+Ben/
+-  http://example.co.uk/maps/place/Big+Ben/
+-  http://www.example.co.uk
+-  http://example.co.uk
+
+  III. No protocol:
+- www.example.co.uk/maps/place/Big+Ben/ 
+- example.co.uk/maps/place/Big+Ben/ 
+- www.example.co.uk 
+- example.co.uk 
+
+Block II: double site name
+  A: single domain name:
+    I: https protocol
+    -  https://maps.example.com/maps/place/Big+Ben/
+    -  https://maps.example.com
+
+    II: http protocol
+    -  http://maps.example.com/maps/place/Big+Ben/
+    -  http://maps.example.com
+
+    III. no protocol
+    - maps.example.com/maps/place/Big+Ben/
+    - maps.example.com 
+
+    B:double domain name
+     I: https protocol
+     - https://maps.example.co.uk/maps/place/Big+Ben/
+     - https://maps.example.co.uk
+
+     II: http protocol
+     - http://maps.example.co.uk/maps/place/Big+Ben/
+     - http://maps.example.co.uk
+     III. no protocol
+     - maps.example.co.uk/maps/place/Big+Ben/ 
+     - maps.example.co.uk 
 
 clipper(none), clipper(shorten), clipper(remove)
 clipper(none, shorten), clipper(shorten, shorten), clipper(remove, shorten)
@@ -61,7 +89,58 @@ test:
 let url = www+.+protocol+.+name+.+tld1
 expect xdfadsgfs toBe 
 */
+function tester(protocol, www, siteName1, siteName2, tld1, tld2, path) {
+  const url = protocol + www + siteName1 + siteName2 + tld1 + tld2 + path;
+  console.error = jest.fn();
 
+  test(`clipper(url, "none")`, () => {
+    expect(clipper(url, "none")).toBe(url);
+  });
+
+  test(`clipper(url, "shorten")`, () => {
+    expect(clipper(url, "shorten")).toBe(
+      www + siteName1 + siteName2 + tld1 + tld2 + path
+    );
+  });
+
+  test(`clipper(url, "remove")`, () => {
+    expect(clipper(url, "remove")).toBe(
+      siteName1 + siteName2 + tld1 + tld2 + path
+    );
+  });
+
+  test(`clipper(url, "none", "shorten")`, () => {
+    expect(clipper(url, "none", "shorten")).toBe(
+      protocol + www + siteName1 + siteName2 + tld1 + tld2
+    );
+  });
+
+  test(`clipper(url, "shorten", "shorten")`, () => {
+    expect(clipper(url, "shorten", "shorten")).toBe(
+      www + siteName1 + siteName2 + tld1 + tld2
+    );
+  });
+
+  test(`clipper(url, "remove", "shorten")`, () => {
+    expect(clipper(url, "remove", "shorten")).toBe(
+      siteName1 + siteName2 + tld1 + tld2
+    );
+  });
+
+  test(`clipper(url, "none", "remove")`, () => {
+    expect(clipper(url, "none", "remove")).toBe(
+      protocol + www + siteName1 + siteName2
+    );
+  });
+  test(`clipper(url, "shorten", "remove")`, () => {
+    expect(clipper(url, "shorten", "remove")).toBe(www + siteName1 + siteName2);
+  });
+  test(`clipper(url, "remove", "remove")`, () => {
+    expect(clipper(url, "remove", "remove")).toBe(siteName1 + siteName2);
+  });
+}
+
+// PRELIMINARY CHECKS
 describe("Errors", () => {
   console.error = jest.fn();
 
@@ -86,176 +165,215 @@ describe("Errors", () => {
   });
 });
 
+describe("Case checking", () => {
+  const url = "http://www.example.com/maps/place/Big+Ben/";
+  console.error = jest.fn();
+
+  test(`clipper(url, "none") should return "http://www.example.com/maps/place/Big+Ben/"`, () => {
+    expect(clipper(url, "none")).toBe(url);
+  });
+
+  test(`clipper(url, "sHorTen") should return "www.example.com/maps/place/Big+Ben/"`, () => {
+    expect(clipper(url, "shorten")).toBe("www.example.com/maps/place/Big+Ben/");
+  });
+
+  test(`clipper(url, "remOVE") should return "example.com/maps/place/Big+Ben/"`, () => {
+    expect(clipper(url, "remove")).toBe("example.com/maps/place/Big+Ben/");
+  });
+
+  test(`clipper(url, "NOne", "shoRTen") should return "http://www.example.com"`, () => {
+    expect(clipper(url, "none", "shorten")).toBe("http://www.example.com");
+  });
+
+  test(`clipper(url, "SHorten", "SHorten") should return "www.example.com"`, () => {
+    expect(clipper(url, "shorten", "shorten")).toBe("www.example.com");
+  });
+
+  test(`clipper(url, "remOVE", "shoRten") should return "example.com"`, () => {
+    expect(clipper(url, "remove", "shorten")).toBe("example.com");
+  });
+});
+
+describe("Input validation", () => {
+  console.error = jest.fn();
+
+  test(`If the url parameter is a number, should return an error`, () => {
+    expect(clipper(123, "none")).toBe(undefined);
+    expect(console.error).toHaveBeenCalledWith("URL needs to be a string.");
+  });
+
+  test(`If the url parameter is an array, should return an error`, () => {
+    expect(clipper(["Test"], "none")).toBe(undefined);
+    expect(console.error).toHaveBeenCalledWith("URL needs to be a string.");
+  });
+  test(`If the url parameter is an array with items corresponding to url elements, should return an error`, () => {
+    expect(clipper(["://", "www", "/"], "none")).toBe(undefined);
+    expect(console.error).toHaveBeenCalledWith("URL needs to be a string.");
+  });
+});
+
+// SINGLE SITE NAME | SINGLE DOMAIN | HTTPS
+describe("https://www.example.com/maps/place/Big+Ben/", () => {
+  tester("https://", "www.", "", "example", ".com", "", "/maps/place/Big+Ben/");
+});
+describe("https://example.com/maps/place/Big+Ben/", () => {
+  tester("https://", "", "", "example", ".com", "", "/maps/place/Big+Ben/");
+});
+describe("https://www.example.com", () => {
+  tester("https://", "www.", "", "example", ".com", "", "");
+});
+describe("https://example.com ", () => {
+  tester("https://", "", "", "example", ".com", "", "");
+});
+
+//SINGLE SITE NAME | SINGLE DOMAIN | HTTP
 describe("http://www.example.com/maps/place/Big+Ben/", () => {
-  var protocol = "http://";
-  var www = "www.";
-  var siteName1 = "";
-  var siteName2 = "example";
-  var tld1 = ".com";
-  var tld2 = "";
-  var path = "/maps/place/Big+Ben/";
-  const url = protocol + www + siteName1 + siteName2 + tld1 + tld2 + path;
-  console.error = jest.fn();
-
-  test(`clipper(url, "none")`, () => {
-    expect(clipper(url, "none")).toBe(url);
-  });
-
-  test(`clipper(url, "shorten")`, () => {
-    expect(clipper(url, "shorten")).toBe(
-      www + siteName1 + siteName2 + tld1 + tld2 + path
-    );
-  });
-
-  test(`clipper(url, "remove")`, () => {
-    expect(clipper(url, "remove")).toBe(
-      siteName1 + siteName2 + tld1 + tld2 + path
-    );
-  });
-
-  test(`clipper(url, "none", "shorten")`, () => {
-    expect(clipper(url, "none", "shorten")).toBe(
-      protocol + www + siteName1 + siteName2 + tld1 + tld2
-    );
-  });
-
-  test(`clipper(url, "shorten", "shorten")`, () => {
-    expect(clipper(url, "shorten", "shorten")).toBe(
-      www + siteName1 + siteName2 + tld1 + tld2
-    );
-  });
-
-  test(`clipper(url, "remove", "shorten")`, () => {
-    expect(clipper(url, "remove", "shorten")).toBe(
-      siteName1 + siteName2 + tld1 + tld2
-    );
-  });
-
-  test(`clipper(url, "none", "remove")`, () => {
-    expect(clipper(url, "none", "remove")).toBe(
-      protocol + www + siteName1 + siteName2
-    );
-  });
-  test(`clipper(url, "shorten", "remove")`, () => {
-    expect(clipper(url, "shorten", "remove")).toBe(www + siteName1 + siteName2);
-  });
-  test(`clipper(url, "remove", "remove")`, () => {
-    expect(clipper(url, "remove", "remove")).toBe(siteName1 + siteName2);
-  });
+  tester("http://", "www.", "", "example", ".com", "", "/maps/place/Big+Ben/");
 });
-
+describe("http://example.com/maps/place/Big+Ben/", () => {
+  tester("http://", "", "", "example", ".com", "", "/maps/place/Big+Ben/");
+});
 describe("http://www.example.com", () => {
-  var protocol = "http://";
-  var www = "www.";
-  var siteName1 = "";
-  var siteName2 = "example";
-  var tld1 = ".com";
-  var tld2 = "";
-  var path = "";
-  const url = protocol + www + siteName1 + siteName2 + tld1 + tld2 + path;
-  console.error = jest.fn();
-
-  test(`clipper(url, "none")`, () => {
-    expect(clipper(url, "none")).toBe(url);
-  });
-
-  test(`clipper(url, "shorten")`, () => {
-    expect(clipper(url, "shorten")).toBe(
-      www + siteName1 + siteName2 + tld1 + tld2 + path
-    );
-  });
-
-  test(`clipper(url, "remove")`, () => {
-    expect(clipper(url, "remove")).toBe(
-      siteName1 + siteName2 + tld1 + tld2 + path
-    );
-  });
-
-  test(`clipper(url, "none", "shorten")`, () => {
-    expect(clipper(url, "none", "shorten")).toBe(
-      protocol + www + siteName1 + siteName2 + tld1 + tld2
-    );
-  });
-
-  test(`clipper(url, "shorten", "shorten")`, () => {
-    expect(clipper(url, "shorten", "shorten")).toBe(
-      www + siteName1 + siteName2 + tld1 + tld2
-    );
-  });
-
-  test(`clipper(url, "remove", "shorten")`, () => {
-    expect(clipper(url, "remove", "shorten")).toBe(
-      siteName1 + siteName2 + tld1 + tld2
-    );
-  });
-
-  test(`clipper(url, "none", "remove")`, () => {
-    expect(clipper(url, "none", "remove")).toBe(
-      protocol + www + siteName1 + siteName2
-    );
-  });
-  test(`clipper(url, "shorten", "remove")`, () => {
-    expect(clipper(url, "shorten", "remove")).toBe(www + siteName1 + siteName2);
-  });
-  test(`clipper(url, "remove", "remove")`, () => {
-    expect(clipper(url, "remove", "remove")).toBe(siteName1 + siteName2);
-  });
+  tester("http://", "www.", "", "example", ".com", "", "");
+});
+describe("http://example.com ", () => {
+  tester("http://", "", "", "example", ".com", "", "");
 });
 
-describe("https://maps.example.co.uk", () => {
-  var protocol = "https://";
-  var www = "";
-  var siteName1 = "maps.";
-  var siteName2 = "example";
-  var tld1 = ".co";
-  var tld2 = ".uk";
-  var path = "";
-  const url = protocol + www + siteName1 + siteName2 + tld1 + tld2 + path;
-  console.error = jest.fn();
+//SINGLE SITE NAME |SINGLE DOMAIN | NO PROTOCOL
+describe("www.example.com/maps/place/Big+Ben/", () => {
+  tester("", "www.", "", "example", ".com", "", "/maps/place/Big+Ben/");
+});
+describe("example.com/maps/place/Big+Ben/", () => {
+  tester("", "", "", "example", ".com", "", "/maps/place/Big+Ben/");
+});
+describe("www.example.com", () => {
+  tester("", "www.", "", "example", ".com", "", "");
+});
+describe("example.com ", () => {
+  tester("", "", "", "example", ".com", "", "");
+});
 
-  test(`clipper(url, "none")`, () => {
-    expect(clipper(url, "none")).toBe(url);
-  });
+// describe("http://www.example.com", () => {
+//   var protocol = "http://";
+//   var www = "www.";
+//   var siteName1 = "";
+//   var siteName2 = "example";
+//   var tld1 = ".com";
+//   var tld2 = "";
+//   var path = "";
+//   const url = protocol + www + siteName1 + siteName2 + tld1 + tld2 + path;
+//   console.error = jest.fn();
 
-  test(`clipper(url, "shorten")`, () => {
-    expect(clipper(url, "shorten")).toBe(
-      www + siteName1 + siteName2 + tld1 + tld2 + path
-    );
-  });
+//   test(`clipper(url, "none")`, () => {
+//     expect(clipper(url, "none")).toBe(url);
+//   });
 
-  test(`clipper(url, "remove")`, () => {
-    expect(clipper(url, "remove")).toBe(
-      siteName1 + siteName2 + tld1 + tld2 + path
-    );
-  });
+//   test(`clipper(url, "shorten")`, () => {
+//     expect(clipper(url, "shorten")).toBe(
+//       www + siteName1 + siteName2 + tld1 + tld2 + path
+//     );
+//   });
 
-  test(`clipper(url, "none", "shorten")`, () => {
-    expect(clipper(url, "none", "shorten")).toBe(
-      protocol + www + siteName1 + siteName2 + tld1 + tld2
-    );
-  });
+//   test(`clipper(url, "remove")`, () => {
+//     expect(clipper(url, "remove")).toBe(
+//       siteName1 + siteName2 + tld1 + tld2 + path
+//     );
+//   });
 
-  test(`clipper(url, "shorten", "shorten")`, () => {
-    expect(clipper(url, "shorten", "shorten")).toBe(
-      www + siteName1 + siteName2 + tld1 + tld2
-    );
-  });
+//   test(`clipper(url, "none", "shorten")`, () => {
+//     expect(clipper(url, "none", "shorten")).toBe(
+//       protocol + www + siteName1 + siteName2 + tld1 + tld2
+//     );
+//   });
 
-  test(`clipper(url, "remove", "shorten")`, () => {
-    expect(clipper(url, "remove", "shorten")).toBe(
-      siteName1 + siteName2 + tld1 + tld2
-    );
-  });
+//   test(`clipper(url, "shorten", "shorten")`, () => {
+//     expect(clipper(url, "shorten", "shorten")).toBe(
+//       www + siteName1 + siteName2 + tld1 + tld2
+//     );
+//   });
 
-  test(`clipper(url, "none", "remove")`, () => {
-    expect(clipper(url, "none", "remove")).toBe(
-      protocol + www + siteName1 + siteName2
-    );
-  });
-  test(`clipper(url, "shorten", "remove")`, () => {
-    expect(clipper(url, "shorten", "remove")).toBe(www + siteName1 + siteName2);
-  });
-  test(`clipper(url, "remove", "remove")`, () => {
-    expect(clipper(url, "remove", "remove")).toBe(siteName1 + siteName2);
-  });
+//   test(`clipper(url, "remove", "shorten")`, () => {
+//     expect(clipper(url, "remove", "shorten")).toBe(
+//       siteName1 + siteName2 + tld1 + tld2
+//     );
+//   });
+
+//   test(`clipper(url, "none", "remove")`, () => {
+//     expect(clipper(url, "none", "remove")).toBe(
+//       protocol + www + siteName1 + siteName2
+//     );
+//   });
+//   test(`clipper(url, "shorten", "remove")`, () => {
+//     expect(clipper(url, "shorten", "remove")).toBe(www + siteName1 + siteName2);
+//   });
+//   test(`clipper(url, "remove", "remove")`, () => {
+//     expect(clipper(url, "remove", "remove")).toBe(siteName1 + siteName2);
+//   });
+// });
+
+// describe("https://maps.example.co.uk", () => {
+//   var protocol = "https://";
+//   var www = "";
+//   var siteName1 = "maps.";
+//   var siteName2 = "example";
+//   var tld1 = ".co";
+//   var tld2 = ".uk";
+//   var path = "";
+//   const url = protocol + www + siteName1 + siteName2 + tld1 + tld2 + path;
+//   console.error = jest.fn();
+
+//   test(`clipper(url, "none")`, () => {
+//     expect(clipper(url, "none")).toBe(url);
+//   });
+
+//   test(`clipper(url, "shorten")`, () => {
+//     expect(clipper(url, "shorten")).toBe(
+//       www + siteName1 + siteName2 + tld1 + tld2 + path
+//     );
+//   });
+
+//   test(`clipper(url, "remove")`, () => {
+//     expect(clipper(url, "remove")).toBe(
+//       siteName1 + siteName2 + tld1 + tld2 + path
+//     );
+//   });
+
+//   test(`clipper(url, "none", "shorten")`, () => {
+//     expect(clipper(url, "none", "shorten")).toBe(
+//       protocol + www + siteName1 + siteName2 + tld1 + tld2
+//     );
+//   });
+
+//   test(`clipper(url, "shorten", "shorten")`, () => {
+//     expect(clipper(url, "shorten", "shorten")).toBe(
+//       www + siteName1 + siteName2 + tld1 + tld2
+//     );
+//   });
+
+//   test(`clipper(url, "remove", "shorten")`, () => {
+//     expect(clipper(url, "remove", "shorten")).toBe(
+//       siteName1 + siteName2 + tld1 + tld2
+//     );
+//   });
+
+//   test(`clipper(url, "none", "remove")`, () => {
+//     expect(clipper(url, "none", "remove")).toBe(
+//       protocol + www + siteName1 + siteName2
+//     );
+//   });
+//   test(`clipper(url, "shorten", "remove")`, () => {
+//     expect(clipper(url, "shorten", "remove")).toBe(www + siteName1 + siteName2);
+//   });
+//   test(`clipper(url, "remove", "remove")`, () => {
+//     expect(clipper(url, "remove", "remove")).toBe(siteName1 + siteName2);
+//   });
+// });
+
+// describe("http://www.example.co.uk", () => {
+//   tester("http://", "www", "", "example", ".co", ".uk", "");
+// });
+
+describe("http://www.example.com/maps/place/Big+Ben/", () => {
+  tester("http://", "www.", "", "example", ".com", "", "");
 });
