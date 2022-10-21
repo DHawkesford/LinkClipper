@@ -1,4 +1,5 @@
-import tldsArr from "tlds";
+// import tldsArr from "tlds" assert {type: "json"}; 
+import tldsArr from "tlds"; 
 
 export const errors = {
   protocol: `ERROR: It looks like your link does not include "https://" nor "http://"`,
@@ -21,20 +22,19 @@ function getCutoffPoints(url) {
 export function clipStart(url, start) {
   //TODO: add error for REMOVE when there's no protocol
   const cutoffPoints = getCutoffPoints(url);
-  var slicedURL = url;
   var start = start.toUpperCase();
   try {
     switch (start) {
       case "SHORTEN":
         if (cutoffPoints.protocol >= 0) {
-          slicedURL = url.slice(cutoffPoints.protocol + 3); // TODO: Potentially make a helper function that does this
+          url = url.slice(cutoffPoints.protocol + 3); // TODO: Potentially make a helper function that does this
         } else throw errors.protocol;
         break;
       case "REMOVE": // google.co.uk/whatever
         if (cutoffPoints.www >= 0) {
-          slicedURL = url.slice(cutoffPoints.www + 4);
+          url = url.slice(cutoffPoints.www + 4);
         } else if (cutoffPoints.www < 0 && cutoffPoints.protocol >= 0) {
-          slicedURL = url.slice(cutoffPoints.protocol + 3); // TODO: See above
+          url = url.slice(cutoffPoints.protocol + 3); // TODO: See above
         } else throw errors.www;
         break;
     }
@@ -42,11 +42,10 @@ export function clipStart(url, start) {
     console.error(err);
   }
 
-  return slicedURL;
+  return url;
 }
 
 export function clipEnd(url, end) {
-  var slicedURL = url;
   var end = end.toUpperCase();
   const cutoffPoints = getCutoffPoints(url);
 
@@ -54,18 +53,18 @@ export function clipEnd(url, end) {
     switch (end) {
       case "SHORTEN":
         if (cutoffPoints.slash >= 0) {
-          slicedURL = url.slice(0, cutoffPoints.slash);
+          url = url.slice(0, cutoffPoints.slash);
         } else throw errors.path;
         break;
       case "REMOVE":
-        slicedURL = url.slice(0, cutoffPoints.tld);
+        url = url.slice(0, cutoffPoints.tld);
         break;
     }
   } catch (err) {
     console.error(err);
   }
 
-  return slicedURL;
+  return url;
 }
 
 export function getFirstTLDIndex(url) {
@@ -86,12 +85,12 @@ export function getFirstTLDIndex(url) {
   }
 }
 
-console.log(getFirstTLDIndex("http://maps.zzzz.co.uk/whatever"));
-console.log(getFirstTLDIndex("http://www.zzzz.co.uk/whatever"));
-console.log(getFirstTLDIndex("www.zzzz.co.uk/whatever"));
-console.log(getFirstTLDIndex("zzzz.co.uk/whatever"));
-console.log(getFirstTLDIndex("maps.google.com"));
-console.log(getFirstTLDIndex("www.google.com"));
-console.log(getFirstTLDIndex("www.google.com/whwhw"));
-console.log(getFirstTLDIndex("www.google.xyz"));
-console.log(getFirstTLDIndex("www.google.xyz/whwhw"));
+// console.log(getFirstTLDIndex("http://maps.zzzz.co.uk/whatever"));
+// console.log(getFirstTLDIndex("http://www.zzzz.co.uk/whatever"));
+// console.log(getFirstTLDIndex("www.zzzz.co.uk/whatever"));
+// console.log(getFirstTLDIndex("zzzz.co.uk/whatever"));
+// console.log(getFirstTLDIndex("maps.google.com"));
+// console.log(getFirstTLDIndex("www.google.com"));
+// console.log(getFirstTLDIndex("www.google.com/whwhw"));
+// console.log(getFirstTLDIndex("www.google.xyz"));
+// console.log(getFirstTLDIndex("www.google.xyz/whwhw"));
