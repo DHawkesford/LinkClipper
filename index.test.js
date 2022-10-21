@@ -1213,6 +1213,8 @@ describe("google.co.uk/maps/place/Big+Ben/", () => {
   // what error message?
   test(`clipper(url, "remove", "shorten") should return "google.co.uk" `, () => {
     expect(clipper(url, "remove", "shorten")).toBe("google.co.uk");
+    expect(console.error).toHaveBeenCalledWith(errors.noStart);
+    expect(console.error).toHaveBeenCalledWith(errors.path);
   });
 });
 

@@ -20,21 +20,20 @@ function getCutoffPoints(url) {
 }
 
 export function clipStart(url, start) {
-  //TODO: add error for REMOVE when there's no protocol
   const cutoffPoints = getCutoffPoints(url);
   var start = start.toUpperCase();
   try {
     switch (start) {
       case "SHORTEN":
         if (cutoffPoints.protocol >= 0) {
-          url = url.slice(cutoffPoints.protocol + 3); // TODO: Potentially make a helper function that does this
+          url = url.slice(cutoffPoints.protocol + 3);
         } else throw errors.protocol;
         break;
-      case "REMOVE": // google.co.uk/whatever
+      case "REMOVE":
         if (cutoffPoints.www >= 0) {
           url = url.slice(cutoffPoints.www + 4);
         } else if (cutoffPoints.www < 0 && cutoffPoints.protocol >= 0) {
-          url = url.slice(cutoffPoints.protocol + 3); // TODO: See above
+          url = url.slice(cutoffPoints.protocol + 3); 
         } else throw errors.noStart;
         break;
     }
