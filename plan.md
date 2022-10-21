@@ -12,7 +12,7 @@
    -✅ clipStart has more & different if conditions than clipEnd
    -clipStart throws an error at clipping stage whilst clipEnd throws it at index computation stage (this may r may not be a problem)
    -✅ IndicesStart are an object but the end indices are free-floating variables.
-   -(?) verify we need all those different SlicedURLs and the logic in index.js
+   -✅ verify we need all those different SlicedURLs and the logic in index.js
 9. Redo the test suite
 10. Update documentation
 11. Merge branch
