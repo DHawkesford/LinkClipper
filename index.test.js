@@ -62,6 +62,30 @@ let url = www+.+protocol+.+name+.+tld1
 expect xdfadsgfs toBe 
 */
 
+describe("Errors", () => {
+  console.error = jest.fn();
+
+  test(`If the 'start' parameter is 'SHORTEN', and the url parameter has no protocol, it should console.error the protocol error message`, () => {
+    clipper("www.maps.example.co.uk", "SHORTEN", "none");
+    expect(console.error).toHaveBeenCalledWith(errors.protocol);
+  });
+
+  test(`If the 'start' parameter is 'REMOVE', and the url parameter has no protocol and no www, it should console.error the noStart error message`, () => {
+    clipper("maps.example.co.uk", "REMOVE", "none");
+    expect(console.error).toHaveBeenCalledWith(errors.noStart);
+  });
+
+  test(`If the 'end' parameter is 'SHORTEN', and the url parameter has no path, it should console.error the path error message`, () => {
+    clipper("https://maps.example.co.uk", "none", "SHORTEN");
+    expect(console.error).toHaveBeenCalledWith(errors.path);
+  });
+
+  test(`If the 'end' parameter is 'REMOVE', and the url parameter has no tld, it should console.error the tld error message`, () => {
+    clipper("https://maps.example", "none", "REMOVE");
+    expect(console.error).toHaveBeenCalledWith(errors.tld);
+  });
+});
+
 describe("http://www.example.com/maps/place/Big+Ben/", () => {
   var protocol = "http://";
   var www = "www.";
@@ -115,7 +139,7 @@ describe("http://www.example.com/maps/place/Big+Ben/", () => {
   test(`clipper(url, "shorten", "remove")`, () => {
     expect(clipper(url, "shorten", "remove")).toBe(www + siteName1 + siteName2);
   });
-  test(`clipper(url, "remove", "remove") should return "example"`, () => {
+  test(`clipper(url, "remove", "remove")`, () => {
     expect(clipper(url, "remove", "remove")).toBe(siteName1 + siteName2);
   });
 });
@@ -173,7 +197,7 @@ describe("http://www.example.com", () => {
   test(`clipper(url, "shorten", "remove")`, () => {
     expect(clipper(url, "shorten", "remove")).toBe(www + siteName1 + siteName2);
   });
-  test(`clipper(url, "remove", "remove") should return "example"`, () => {
+  test(`clipper(url, "remove", "remove")`, () => {
     expect(clipper(url, "remove", "remove")).toBe(siteName1 + siteName2);
   });
 });
@@ -231,7 +255,7 @@ describe("https://maps.example.co.uk", () => {
   test(`clipper(url, "shorten", "remove")`, () => {
     expect(clipper(url, "shorten", "remove")).toBe(www + siteName1 + siteName2);
   });
-  test(`clipper(url, "remove", "remove") should return "example"`, () => {
+  test(`clipper(url, "remove", "remove")`, () => {
     expect(clipper(url, "remove", "remove")).toBe(siteName1 + siteName2);
   });
 });
