@@ -14,6 +14,9 @@
    -✅ IndicesStart are an object but the end indices are free-floating variables.
    -(?) verify we need all those different SlicedURLs and the logic in index.js
 9. Redo the test suite
+10. Update documentation
+11. Merge branch
+12. Re-publish
 
 KNOWN BUGS:
 ❗Account for URLs such as broadway.com where the site name also happens to be a TLD ❗
