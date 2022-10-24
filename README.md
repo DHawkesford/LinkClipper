@@ -24,6 +24,8 @@ For example you may have a resource-sharing app where users can submit their own
 
 With this project our goal was to create a simple package that would be helpful for other developers, and also to learn how packages can be published to NPM.
 
+We also took this as an opportunity to practice following Test-Driven Development, and have created a comprehensive test suite using Jest. This approach helped us to ensure that LinkClipper is robust across all the possible test cases (i.e. all possible combinations of links with or without protocols, 'www', domain names and paths).
+
 ## Usage
 
 ### Installation
@@ -56,6 +58,8 @@ The extent to which to clip the end of the URL string. Currently the only option
 
 - `shorten`: Removes the path from the end of the URL (i.e. everything that comes after '.com' or other domain).
 
+- `remove`: Removes the path and the TLDs from the end of the URL (e.g. everything from '.com' onwards).
+
 ### Return value
 
 A new string containing the clipped URL. The original string is not modified.
@@ -78,11 +82,25 @@ A new string containing the clipped URL. The original string is not modified.
 
     clipper(url, 'remove', 'shorten') // OUTPUT: 'stackoverflow.com'
 
+    clipper(url, 'none', 'remove') // OUTPUT: 'https://www.stackoverflow'
+
+    clipper(url, 'shorten', 'remove') // OUTPUT: 'www.stackoverflow'
+
+    clipper(url, 'remove', 'remove') // OUTPUT: 'stackoverflow'
+
 ## Future plans
 
-- Include an option for just obtaining the site name (e.g. 'github').
+- ✅ *Included in version 2.0*
+
+    Include an option for just obtaining the site name (e.g. 'github').
+
+- KNOWN BUG:
+
+    ❗LinkClipper does not currently account for URLs such as broadway.com where the site name also happens to be a TLD❗
 
 ## Acknowledgements
+
+- Thank you to Chris Miller ([@ccmiller2018](https://github.com/ccmiller2018)) for providing feedback!
 
 - [How To Create And Publish Your First NPM Package - Web Dev Simplified](https://www.youtube.com/watch?v=J4b_T-qH3BY&ab_channel=WebDevSimplified)
 
