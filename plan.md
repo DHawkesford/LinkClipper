@@ -16,5 +16,5 @@
 9. ✅ Redo the test suite
 10. ✅ Check through code - clean up as needed
 11. ✅ Update documentation
-12. Merge branch
-13. Re-publish
+12. ✅ Merge branch
+13. ✅ Re-publish
