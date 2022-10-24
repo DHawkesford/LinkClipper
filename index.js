@@ -1,47 +1,16 @@
-export const errors = {
-  protocol: `ERROR: It looks like your link does not include "https://" nor "http://"`,
-  www: `ERROR: It looks like your link does not include "www"`,
-  path: `ERROR: It looks like your link does not include a path`,
-};
+import { clipStart, clipEnd } from "./helpers.js";
 
 function clipper(url, start, end) {
-  let slicedURL = url;
+  try {
+    if (typeof url !== "string") throw "URL needs to be a string.";
 
-  const indicesStart = {
-    h: slicedURL.indexOf("://"),
-    w: slicedURL.indexOf("www"),
-  };
+    url = clipStart(url, start);
+    url = end ? clipEnd(url, end) : url;
 
-  if (start === "shorten" && indicesStart.h >= 0) {
-    // If there's a protocol
-    slicedURL = slicedURL.slice(indicesStart.h + 3);
-    console.log(slicedURL);
-  } else if (start === "remove" && indicesStart.w >= 0) {
-    // If there's a 'www'
-    slicedURL = slicedURL.slice(indicesStart.w + 4);
-    console.log(slicedURL);
-  } else if (start === "shorten" && indicesStart.h < 0) {
-    // If there's no protocol
-    console.log(errors.protocol);
-  } else if (start === "remove" && indicesStart.w < 0 && indicesStart.h >= 0) {
-    // If there's a protocol but no 'www'
-    slicedURL = slicedURL.slice(indicesStart.h + 3);
+    return url;
+  } catch (e) {
+    console.error(e);
   }
-
-  let indexSlash = slicedURL.indexOf("/", slicedURL.indexOf("://") + 3);
-
-  if (slicedURL.indexOf("://") < 0) {
-    indexSlash = slicedURL.indexOf("/");
-  }
-
-  if (end === "shorten" && indexSlash >= 0) {
-    slicedURL = slicedURL.slice(0, indexSlash);
-    console.log(slicedURL);
-  } else if (end === "shorten" && indexSlash < 0) {
-    console.log(errors.path);
-  }
-
-  return slicedURL;
 }
 
 export default clipper;
