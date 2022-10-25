@@ -11,7 +11,7 @@ export const errors = {
 //Looks for occurrences of TLDs in the input string (url), and returns the index of the first TLD found in that string. If none found, returns -1.
 function getFirstTLDIndex(url) {
   const matchesArr = [];
-  //Itartes through tldsArr (which contains all current TLDS) and puts each item in a regex.
+  //Iterates through tldsArr (which contains all current TLDS) and puts each item in a regex.
   for (let i = 0; i < tldsArr.length; i++) {
     let key = `(\\.${tldsArr[i]}(\\.|\/|$))`;
     const regex = new RegExp(key, "gi");
